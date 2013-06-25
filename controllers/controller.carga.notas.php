@@ -23,6 +23,7 @@ $mensaje ="";
 $uploadfile;
 $objReadCSV;
 $objConversion = new Convert();
+$swCargar = false;
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
 	$docente->findBy("CEDULA = $cedula");
@@ -43,6 +44,7 @@ if(isset($_POST)){
 
 			if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
 			    $mensaje = "Archivo cargado exitosamente";
+			    $swCargar = true;
 			} else {
 				$mensaje = "Fallo la carga del archivo";
 			}
