@@ -5,10 +5,16 @@
 <title>Carga Evaluaciones</title>
   <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
-  
+  <script type="text/javascript" src="../js/jquery.ui.core.js"></script>
+  <script type="text/javascript" src="../js/jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="../js/jquery.ui.datepicker.js"></script>
   <script type="text/javascript">
+  $(function() {
+		$( ".datepicker" ).datepicker();
+	});
   </script>
 </head>
 <body>
@@ -99,7 +105,7 @@
 		        <?php for($i=1; $i <= intval($evaluacion->getCantidadEvaluaciones()) ;$i++ ){?>
 				<tr>
 				    <th><label>Evaluacion <?=$i?></label><input type="text" name="descripcion<?=$i?>" data-validate="validate(required)" size="40" value="<?= (isset($_POST['descripcion'.$i]))?$_POST['descripcion'.$i]:"";?>" ></th>
-				    <th><label>Fecha:</label><input type="date" name="fecha<?=$i?>" data-validate="validate(required)" value="<?= (isset($_POST['fecha'.$i]))?$_POST['fecha'.$i]:"";?>"></th>
+				    <th><label>Fecha:</label><input type="text" name="fecha<?=$i?>" data-validate="validate(required)" value="<?= (isset($_POST['fecha'.$i]))?$_POST['fecha'.$i]:"";?>" class="datepicker"></th>
 				    <th><label>Porcentaje:</label><input type="text" name="porcentaje<?=$i?>" value="<?= (isset($_POST['porcentaje'.$i]))?$_POST['porcentaje'.$i]:"";?>" data-validate="validate(required,number,range(5, 30))"></th>
 				<tr>
 				<?php }?>
