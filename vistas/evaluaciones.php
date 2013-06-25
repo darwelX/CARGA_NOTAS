@@ -38,7 +38,7 @@
   <input type="hidden" name="lapso" value="<?=$_POST['lapso']?>"/>
   <input type="hidden" name="seccion" value="<?=$_POST['seccion']?>"/>
   <input type="hidden" name="materia" value="<?=$_POST['materia']?>"/>
-  <input type="hidden" name="cantidad" value="<?=$_POST['cantidad']?>"/>
+  <input type="hidden" name="cantidad" value="<?=$evaluacion->getCantidadEvaluaciones()?>"/>
   <input type="hidden" name="control" value="<?=$evaluacion->getId()?>"/>
   
   <fieldset>
