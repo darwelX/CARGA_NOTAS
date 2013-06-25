@@ -34,6 +34,14 @@
   <fieldset style="width: 50%">
   <legend>Imprimir Control de Notas</legend>
   <table>
+    <tr>
+         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
+                 if(isset($mensaje)){
+                    echo $mensaje;
+                 } 
+             ?>
+         </th>
+    </tr>
     
     <tr>
 		<td><label>Lapso:</label></td>
@@ -160,6 +168,7 @@
              <th>APELLIDOS</th>
            </tr>  
              <?php
+                if(sizeof($objCeccion->estudiantes) > 0){
                   $i=1;
                   foreach ($objCeccion->estudiantes as $estudiante){
                     $estilo = ( ($i % 2) == 0 )?"par":"impar";
@@ -171,6 +180,7 @@
                     echo "</tr>"; 
                     $i++;
                   }
+                }
              ?>
              
              <tr>
