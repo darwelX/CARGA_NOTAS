@@ -162,7 +162,7 @@
   </fieldset>
   <br>
   <?php 
-  if( (isset($_POST['procesar']) && $_POST['procesar']=="Cargar") ){?>   
+  if( (isset($_POST['procesar']) && $_POST['procesar']=="Cargar") && $swCargar){?>   
      <fieldset style="width: 95%">
       <input type="hidden" name="nombreArchivo" value="<?=$uploadfile?>"/>
       <legend align="center">
