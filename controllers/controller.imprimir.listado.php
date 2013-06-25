@@ -15,6 +15,7 @@ $lapso = new Lapso();
 $objCeccion = new Seccion();
 $materia = new Materia();
 $evaluacion = new Evaluacion();
+$mensaje="";
 
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
@@ -36,6 +37,9 @@ if(isset($_POST)){
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Buscar"){
 		//echo "buscando";
 		$objCeccion->findEstudiantesByMateria($materia->getId());
+		if(sizeof($objCeccion->estudiantes) <= 0){
+			$mensaje="No posee estudiantes asignados para esta materia";
+		}
 		require_once '../vistas/imprimir_planilla_notas.php';
 	}
 
