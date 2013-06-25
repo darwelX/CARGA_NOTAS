@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/interface.Operaciones.php';
+require_once '../classes/class.util.Convert.php';
 /**
  * @author darwelX
  *
@@ -10,6 +11,7 @@ class Examen implements Operaciones{
 	private $porcentaje;
 	private $numero;
 	private $fecha;
+	private $convert;
 	private $conexion;
 	private $stmt;
 	private $sqlAll = "SELECT * FROM PORCENTAJENOTA ";
@@ -17,6 +19,7 @@ class Examen implements Operaciones{
 
 	public function __construct(){
 		$this->conexion = new Connect();
+		$this->convert = new Convert();
 	}
 	
 	public function getIdControl(){
@@ -118,7 +121,7 @@ class Examen implements Operaciones{
 			$sql .= "'".$this->descripcion."', ";
 			$sql .= "'".$this->porcentaje."', ";
 			$sql .= "'".$this->numero."', ";
-			$sql .= "'".$this->fecha."'";
+			$sql .= "'".$this->convert->convertDate($this->fecha)."'";
 			$sql .= ")";
 			#echo $sql;
 			$this->stmt = $this->conexion->ejecutar($sql);
