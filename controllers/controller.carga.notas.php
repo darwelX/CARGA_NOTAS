@@ -24,6 +24,8 @@ $uploadfile;
 $objReadCSV;
 $objConversion = new Convert();
 $swCargar = false;
+$errores = array();
+
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
 	$docente->findBy("CEDULA = $cedula");
@@ -41,30 +43,37 @@ if(isset($_POST)){
 		if($evaluacion->findBy("IDDOCENTE=".$docente->getId()." AND IDSECCION= ".$objCeccion->getId()." AND IDASIGNATURA = ".$materia->getId()." AND IDLAPSO=".$lapso->getId())){
 			$uploaddir = '../cvs/';
 			$uploadfile = $uploaddir . basename($_FILES['file']['name']);
-
+			
 			if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
-			    $mensaje = "Archivo cargado exitosamente";
-			    $swCargar = true;
+				$objReadCSV = new ReadCSV($uploadfile);
+				$errores=$objReadCSV->validarColumnasCSV($uploadfile);
+				if(sizeof($errores) > 0){
+					$swCargar = false;
+				}else{				
+					$mensaje = "Archivo cargado exitosamente";
+					$swCargar = true;
+				}
 			} else {
 				$mensaje = "Fallo la carga del archivo";
-			}
+			}	
+					
 		}else{
-			$mensaje ="No existe un Control de Evaluacion creado debe de <a href='../vistas/crear_plan_evaluacion.php?&cedula=".$docente->getCedula()."'>crear</a> uno antes de cargar notas";	
+			$mensaje ="No existe un Control de Evaluacion creado debe de <a href='../vistas/crear_plan_evaluacion.php?&cedula=".$docente->getCedula()."'>crear</a> uno antes de cargar notas";
 		}
 
 		require_once '../vistas/cargar_notas.php';
 	}
-	
+
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Guardar"){
 		$objReadCSV = new ReadCSV($_POST['nombreArchivo']);
 		$matriz = $objReadCSV->convertriArreglo();
-		
+
 		$cantidadNotasRegistradas=0;
 		$cantidadNotasDefinitivas=0;
 		$cantidadEvaluaciones = intval(sizeof($matriz[0])) - 3;
-		
+
 		$evaluacion->findBy("IDDOCENTE=".$docente->getId()." AND IDSECCION= ".$objCeccion->getId()." AND IDASIGNATURA = ".$materia->getId()." AND IDLAPSO=".$lapso->getId());
-		
+
 		for($i=1; $i < sizeof($matriz); $i++){
 			$cedula =  $matriz[$i][0];
 			$suma=0;
@@ -72,20 +81,24 @@ if(isset($_POST)){
 			for($j=3; $j < sizeof($matriz[0]); $j++ ){
 				$objEst = new Estudiante();
 				if($objEst->findBy("CEDULA = $cedula")){
-				   $suma+=$matriz[$i][$j];
-				   $objNota = new Nota();
-				   $objNota->setIdEstudiante($objEst->getId());
-				   $objNota->setNota($matriz[$i][$j]);
-				   $objNota->setNumeroEvaluacion($j-2);
-				   $objNota->setControl($evaluacion->getId());
-				   $swInsert = $objNota->insert();
-				   if($swInsert){
-				   	 $cantidadNotasRegistradas++;
-				   }
+					$suma+=$matriz[$i][$j];
+					$objNota = new Nota();
+					$objNota->setIdEstudiante($objEst->getId());
+					$no = 0;
+					if(! ($matriz[$i][$j] == "-" || $matriz[$i][$j] == "NP") ){
+						$no = $matriz[$i][$j];
+					}
+					$objNota->setNota($no);
+					$objNota->setNumeroEvaluacion($j-2);
+					$objNota->setControl($evaluacion->getId());
+					$swInsert = $objNota->insert();
+					if($swInsert){
+						$cantidadNotasRegistradas++;
+					}
 				}
-				
+
 			}
-			
+				
 			$objConver = new Convert();
 			$objNotaDefinitiva = new NotaDefinitiva();
 			$objNotaDefinitiva->setIdAlumno($objEst->getId());
@@ -100,7 +113,7 @@ if(isset($_POST)){
 			if($wsNotaDef){
 				$cantidadNotasDefinitivas++;
 			}
-			
+				
 		}
 		$estudiantes = $cantidadNotasRegistradas/$cantidadEvaluaciones;
 		$mensaje2="Total de notas desglosadas registradas $cantidadNotasRegistradas <br> Numero de estudiantes procesados $estudiantes";
