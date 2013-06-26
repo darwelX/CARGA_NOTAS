@@ -45,6 +45,23 @@
     
     <tr>
          <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
+             
+              if(isset($errores)){
+                 if(sizeof($errores)>0){
+
+                    for($i=0; $i < sizeof($errores); $i++){
+		                print("Error en linea ".$errores[$i]['linea']." ".$errores[$i]['error']);
+	                    print "<br>";
+                    }
+                 }
+
+               }
+             ?>
+         </th>
+    </tr>
+        
+    <tr>
+         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
                  if(isset($mensaje2)){
                     echo $mensaje2;
                  } 
