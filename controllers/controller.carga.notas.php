@@ -81,13 +81,13 @@ if(isset($_POST)){
 			for($j=3; $j < sizeof($matriz[0]); $j++ ){
 				$objEst = new Estudiante();
 				if($objEst->findBy("CEDULA = $cedula")){
-					$suma+=$matriz[$i][$j];
 					$objNota = new Nota();
 					$objNota->setIdEstudiante($objEst->getId());
 					$no = 0;
 					if(! ($matriz[$i][$j] == "-" || $matriz[$i][$j] == "NP") ){
 						$no = $matriz[$i][$j];
 					}
+					$suma+=$no;
 					$objNota->setNota($no);
 					$objNota->setNumeroEvaluacion($j-2);
 					$objNota->setControl($evaluacion->getId());
