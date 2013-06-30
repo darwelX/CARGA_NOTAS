@@ -43,20 +43,40 @@ if(isset($_POST)){
 		if($evaluacion->findBy("IDDOCENTE=".$docente->getId()." AND IDSECCION= ".$objCeccion->getId()." AND IDASIGNATURA = ".$materia->getId()." AND IDLAPSO=".$lapso->getId())){
 			$uploaddir = '../cvs/';
 			$uploadfile = $uploaddir . basename($_FILES['file']['name']);
-			
+
 			if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
 				$objReadCSV = new ReadCSV($uploadfile);
 				$errores=$objReadCSV->validarColumnasCSV($uploadfile);
 				if(sizeof($errores) > 0){
 					$swCargar = false;
-				}else{				
+				}else{
+					$cantidadEstudiantesNoRegistrados=0;
+					$cantidadEstudiantesNoMatriculados=0;
+					$matriz = $objReadCSV->convertriArreglo();
+					
+					for($i=1; $i < sizeof($matriz); $i++){
+						$cedula =  $matriz[$i][0];
+						$objEst = new Estudiante();
+						
+						if($objEst->findBy("CEDULA = $cedula")){
+							$existe=$objCeccion->findEstudianteByMateria($materia->getId(), $objEst->getId());
+							if(!$existe){
+								$cantidadEstudiantesNoMatriculados++;
+							}
+						}else{
+							$cantidadEstudiantesNoRegistrados++;
+						}
+					}
+					
 					$mensaje = "Archivo cargado exitosamente";
+					if($cantidadEstudiantesNoRegistrados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoRegistrados estudiantes, no registrados en el sistema";
+					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la materia";
 					$swCargar = true;
 				}
 			} else {
 				$mensaje = "Fallo la carga del archivo";
-			}	
-					
+			}
+
 		}else{
 			$mensaje ="No existe un Control de Evaluacion creado debe de <a href='../vistas/crear_plan_evaluacion.php?&cedula=".$docente->getCedula()."'>crear</a> uno antes de cargar notas";
 		}
@@ -68,6 +88,7 @@ if(isset($_POST)){
 		$objReadCSV = new ReadCSV($_POST['nombreArchivo']);
 		$matriz = $objReadCSV->convertriArreglo();
 
+		$cantidadEstudiantesNoInscritos=0;
 		$cantidadNotasRegistradas=0;
 		$cantidadNotasDefinitivas=0;
 		$cantidadEvaluaciones = intval(sizeof($matriz[0])) - 3;
@@ -78,46 +99,59 @@ if(isset($_POST)){
 			$cedula =  $matriz[$i][0];
 			$suma=0;
 			$objEst;
+			$existeMatricula = false;
 			for($j=3; $j < sizeof($matriz[0]); $j++ ){
+				
 				$objEst = new Estudiante();
+				
 				if($objEst->findBy("CEDULA = $cedula")){
-					$objNota = new Nota();
-					$objNota->setIdEstudiante($objEst->getId());
-					$no = 0;
-					if(! ($matriz[$i][$j] == "-" || $matriz[$i][$j] == "NP") ){
-						$no = $matriz[$i][$j];
-					}
-					$suma+=$no;
-					$objNota->setNota($no);
-					$objNota->setNumeroEvaluacion($j-2);
-					$objNota->setControl($evaluacion->getId());
-					$swInsert = $objNota->insert();
-					if($swInsert){
-						$cantidadNotasRegistradas++;
+					
+					$existeMatricula=$objCeccion->findEstudianteByMateria($materia->getId(), $objEst->getId());
+					
+					if($existeMatricula){
+						$objNota = new Nota();
+						$objNota->setIdEstudiante($objEst->getId());
+						$no = 0;
+						if(! ($matriz[$i][$j] == "-" || $matriz[$i][$j] == "NP") ){
+							$no = $matriz[$i][$j];
+						}
+						$suma+=$no;
+						$objNota->setNota($no);
+						$objNota->setNumeroEvaluacion($j-2);
+						$objNota->setControl($evaluacion->getId());
+						$swInsert = $objNota->insert();
+						if($swInsert){
+							$cantidadNotasRegistradas++;
+						}
 					}
 				}
 
 			}
-				
-			$objConver = new Convert();
-			$objNotaDefinitiva = new NotaDefinitiva();
-			$objNotaDefinitiva->setIdAlumno($objEst->getId());
-			$objNotaDefinitiva->setIdAsignatura($materia->getId());
-			$objNotaDefinitiva->setIdCarrera($objCeccion->carrera->getId());
-			$objNotaDefinitiva->setIdLapso($lapso->getId());
-			$objNotaDefinitiva->setIdSeccion($objCeccion->getId());
-			$objNotaDefinitiva->setMostrar(1);
-			$objNotaDefinitiva->setNota($objConver->conversionNota($suma));
-			$objNotaDefinitiva->setTrimestre($materia->getTrimestre());
-			$wsNotaDef=$objNotaDefinitiva->insert();
-			if($wsNotaDef){
-				$cantidadNotasDefinitivas++;
+
+			if($existeMatricula){
+				$objConver = new Convert();
+				$objNotaDefinitiva = new NotaDefinitiva();
+				$objNotaDefinitiva->setIdAlumno($objEst->getId());
+				$objNotaDefinitiva->setIdAsignatura($materia->getId());
+				$objNotaDefinitiva->setIdCarrera($objCeccion->carrera->getId());
+				$objNotaDefinitiva->setIdLapso($lapso->getId());
+				$objNotaDefinitiva->setIdSeccion($objCeccion->getId());
+				$objNotaDefinitiva->setMostrar(1);
+				$objNotaDefinitiva->setNota($objConver->conversionNota($suma));
+				$objNotaDefinitiva->setTrimestre($materia->getTrimestre());
+				$wsNotaDef=$objNotaDefinitiva->insert();
+				if($wsNotaDef){
+					$cantidadNotasDefinitivas++;
+				}
+			}else{
+				$cantidadEstudiantesNoInscritos++;
 			}
-				
+
 		}
 		$estudiantes = $cantidadNotasRegistradas/$cantidadEvaluaciones;
 		$mensaje2="Total de notas desglosadas registradas $cantidadNotasRegistradas <br> Numero de estudiantes procesados $estudiantes";
 		$mensaje2.="<br> Total de notas Definitivas registradas $cantidadNotasDefinitivas";
+		$mensaje2.="<br>Total de Estudiantes no inscritos $cantidadEstudiantesNoInscritos encontrados en el archivo";
 		require_once '../vistas/cargar_notas.php';
 	}
 }
