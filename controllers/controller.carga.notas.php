@@ -70,7 +70,7 @@ if(isset($_POST)){
 					
 					$mensaje = "Archivo cargado exitosamente";
 					if($cantidadEstudiantesNoRegistrados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoRegistrados estudiantes, no registrados en el sistema";
-					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la materia";
+					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la asignatura";
 					$swCargar = true;
 				}
 			} else {
@@ -151,7 +151,7 @@ if(isset($_POST)){
 		$estudiantes = $cantidadNotasRegistradas/$cantidadEvaluaciones;
 		$mensaje2="Total de notas desglosadas registradas $cantidadNotasRegistradas <br> Numero de estudiantes procesados $estudiantes";
 		$mensaje2.="<br> Total de notas Definitivas registradas $cantidadNotasDefinitivas";
-		$mensaje2.="<br>Total de Estudiantes no inscritos $cantidadEstudiantesNoInscritos encontrados en el archivo";
+		$mensaje2.="<br>$cantidadEstudiantesNoInscritos estudiantes no inscritos en la asignatura tiene el archivo";
 		require_once '../vistas/cargar_notas.php';
 	}
 }
