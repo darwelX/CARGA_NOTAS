@@ -115,7 +115,25 @@ class Seccion {
 		//print_r($this->estudiantes);
 	}
 	
-	
+	public function findEstudianteByMateria($idmateria,$idestudiante){
+		$sql = "SELECT * FROM PERSONAS WHERE IDPERSONA ";
+		$sql.= " IN (SELECT ESTUDIANTE FROM ESTUDIANTES_HORARIOS GROUP BY ESTUDIANTE,SECCION,ASIGNATURA HAVING SECCION = $this->id AND ASIGNATURA=$idmateria AND ESTUDIANTE=$idestudiante) ORDER BY APELLIDOS";
+		//print $sql."<br>";
+		$this->conexion->conectar();
+		$this->stmt = $this->conexion->ejecutar($sql);
+		while ($rs=$this->conexion->obtener_filas($this->stmt)){
+			$objEstudiante = new Estudiante();
+			$objEstudiante->setId($rs['IDPERSONA']);
+			$objEstudiante->setNacionalidad($rs['NACIONALIDAD']);
+			$objEstudiante->setCedula($rs['CEDULA']);
+			$objEstudiante->setNombres($rs['NOMBRES']);
+			$objEstudiante->setApellidos($rs['APELLIDOS']);
+			$objEstudiante->setProceso($rs['PROCESO']);
+	        return true;
+		}
+		return false;
+		//print_r($this->estudiantes);
+	}	
 	public function find($id){
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDSECCION = ".$id);
