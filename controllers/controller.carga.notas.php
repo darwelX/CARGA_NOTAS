@@ -55,7 +55,7 @@ if(isset($_POST)){
 					$matriz = $objReadCSV->convertriArreglo();
 					
 					for($i=1; $i < sizeof($matriz); $i++){
-						$cedula =  $matriz[$i][0];
+						$cedula =  $objConversion->eliminarPuntos($matriz[$i][0]);
 						$objEst = new Estudiante();
 						
 						if($objEst->findBy("CEDULA = $cedula")){
@@ -96,7 +96,7 @@ if(isset($_POST)){
 		$evaluacion->findBy("IDDOCENTE=".$docente->getId()." AND IDSECCION= ".$objCeccion->getId()." AND IDASIGNATURA = ".$materia->getId()." AND IDLAPSO=".$lapso->getId());
 
 		for($i=1; $i < sizeof($matriz); $i++){
-			$cedula =  $matriz[$i][0];
+			$cedula =  $objConversion->eliminarPuntos($matriz[$i][0]);
 			$suma=0;
 			$objEst;
 			$existeMatricula = false;
@@ -113,7 +113,7 @@ if(isset($_POST)){
 						$objNota->setIdEstudiante($objEst->getId());
 						$no = 0;
 						if(! ($matriz[$i][$j] == "-" || $matriz[$i][$j] == "NP") ){
-							$no = $matriz[$i][$j];
+							$no = floatval($objConversion->cambiarPuntoDecimal($matriz[$i][$j]));
 						}
 						$suma+=$no;
 						$objNota->setNota($no);
@@ -139,6 +139,7 @@ if(isset($_POST)){
 				$objNotaDefinitiva->setMostrar(1);
 				$objNotaDefinitiva->setNota($objConver->conversionNota($suma));
 				$objNotaDefinitiva->setTrimestre($materia->getTrimestre());
+				$objNotaDefinitiva->setCreditos($materia->getCreditos());
 				$wsNotaDef=$objNotaDefinitiva->insert();
 				if($wsNotaDef){
 					$cantidadNotasDefinitivas++;
