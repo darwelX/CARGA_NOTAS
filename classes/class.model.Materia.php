@@ -4,12 +4,21 @@ class Materia {
 	private $codigo;
 	private $trimestre;
 	private $nombre;
+	private $creditos;
 	private $conexion;
 	private $stmt;
 	private $sqlAll = "SELECT * FROM PENSUN ";
 	
 	public function __construct(){
 		$this->conexion = new Connect();
+	}
+
+	public function getCreditos(){
+		return $this->creditos;
+	}
+	
+	public function setCreditos($creditos){
+		$this->creditos=$creditos;
 	}
 	
 	public function getId(){
@@ -52,6 +61,7 @@ class Materia {
 			$this->codigo = $rsd['CODIGO'];
 			$this->trimestre = $rsd['TRIMESTRE'];
 			$this->nombre = $rsd['NOMBRE'];
+			$this->creditos = $rsd['CREDITOS'];
 			return true;
 		}
 		return false;
