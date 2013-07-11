@@ -10,6 +10,7 @@ class NotaDefinitiva implements Operaciones{
 	private $idSeccion;
 	private $nota;
 	private $mostrar;
+	private $creditos;
 	private $conexion;
 	private $stmt;
 	private $sqlAll = "SELECT * FROM NOTAS ";
@@ -17,6 +18,14 @@ class NotaDefinitiva implements Operaciones{
 	
 	public function __construct(){
 		$this->conexion = new Connect();
+	}
+	
+	public function getCreditos(){
+		return $this->creditos;
+	}
+	
+	public function setCreditos($creditos){
+		$this->creditos=$creditos;
 	}
 	
 	public function setMostrar($mostrar){
@@ -88,7 +97,9 @@ class NotaDefinitiva implements Operaciones{
 	public function findBy($condicion){
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion ");
-		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+		//while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+		$rsd=$this->conexion->obtener_filas($this->stmt);
+		if(isset($rsd['ALUMNO'])){
 			$this->idAlumno = $rsd['ALUMNO'];
 			$this->idAsignatura = $rsd['ASIGNATURA'];
 			$this->idcarrera = $rsd['CARRERA'];
@@ -107,7 +118,7 @@ class NotaDefinitiva implements Operaciones{
 		$sw = $this->findBy("ALUMNO=$this->idAlumno AND ASIGNATURA=$this->idAsignatura AND LAPSO =$this->idLapso AND SECCION=$this->idSeccion AND CARRERA=$this->idcarrera");
 		
 		if(!$sw){
-			$sql = "INSERT INTO ".NotaDefinitiva::$table." (ALUMNO,ASIGNATURA,CARRERA,LAPSO,SECCION,NOTA,MOSTRAR,TRIMESTRE) ";
+			$sql = "INSERT INTO ".NotaDefinitiva::$table." (ALUMNO,ASIGNATURA,CARRERA,LAPSO,SECCION,NOTA,MOSTRAR,CREDITOS,TRIMESTRE) ";
 			$sql.= " VALUES( ";
 			$sql .= "'".$this->idAlumno."', ";
 			$sql .= "'".$this->idAsignatura."', ";
@@ -116,6 +127,7 @@ class NotaDefinitiva implements Operaciones{
 			$sql .= "'".$this->idSeccion."', ";
 			$sql .= "'".$this->nota."', ";
 			$sql .= "'".$this->mostrar."', ";
+			$sql .= "'".$this->creditos."', ";
 			$sql .= "'".$this->trimestre."'";
 			$sql .= ")";
 			//echo $sql."<br>";
