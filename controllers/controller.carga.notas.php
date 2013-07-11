@@ -25,7 +25,8 @@ $objReadCSV;
 $objConversion = new Convert();
 $swCargar = false;
 $errores = array();
-
+$cedulasNoRegistradas="";
+$cedulasNoMatriculadas="";
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
 	$docente->findBy("CEDULA = $cedula");
@@ -62,15 +63,17 @@ if(isset($_POST)){
 							$existe=$objCeccion->findEstudianteByMateria($materia->getId(), $objEst->getId());
 							if(!$existe){
 								$cantidadEstudiantesNoMatriculados++;
+								$cedulasNoMatriculadas.=$cedula.",";
 							}
 						}else{
 							$cantidadEstudiantesNoRegistrados++;
+							$cedulasNoRegistradas.=$cedula.",";
 						}
 					}
 					
 					$mensaje = "Archivo cargado exitosamente";
-					if($cantidadEstudiantesNoRegistrados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoRegistrados estudiantes, no registrados en el sistema";
-					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la asignatura";
+					if($cantidadEstudiantesNoRegistrados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoRegistrados estudiantes, no registrados en el sistema ($cedulasNoRegistradas)";
+					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la asignatura ($cedulasNoMatriculadas)";
 					$swCargar = true;
 				}
 			} else {
