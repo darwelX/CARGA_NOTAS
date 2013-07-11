@@ -121,7 +121,11 @@ class Seccion {
 		//print $sql."<br>";
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($sql);
-		while ($rs=$this->conexion->obtener_filas($this->stmt)){
+		$rs=$this->conexion->obtener_filas($this->stmt);
+		if(isset($rs['IDPERSONA'])){
+			return true;
+		}
+		/*while ($rs=$this->conexion->obtener_filas($this->stmt)){
 			$objEstudiante = new Estudiante();
 			$objEstudiante->setId($rs['IDPERSONA']);
 			$objEstudiante->setNacionalidad($rs['NACIONALIDAD']);
@@ -130,7 +134,7 @@ class Seccion {
 			$objEstudiante->setApellidos($rs['APELLIDOS']);
 			$objEstudiante->setProceso($rs['PROCESO']);
 	        return true;
-		}
+		}*/
 		return false;
 		//print_r($this->estudiantes);
 	}	
