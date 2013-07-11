@@ -70,5 +70,13 @@
   	public function convertDate($fecha){
   		return substr($fecha,6)."/".substr($fecha,3,2)."/".substr($fecha,0,2);     // bcdef
   	} 	
+  	
+  	public function eliminarPuntos($cadena){
+  		return str_replace(".", "", $cadena);
+  	}
+  	
+  	public function cambiarPuntoDecimal($cadena){
+  		return str_replace(",", ".", $cadena);
+  	}
   }
 ?>
