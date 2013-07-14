@@ -31,7 +31,7 @@
 
 <form enctype="multipart/form-data" action="../controllers/controller.carga.notas.php" method="post" id="form1">
   <input type="hidden" name="cedula" value="<?php echo $cedula;?>"/>
-  <fieldset style="width: 50%">
+  <fieldset style="width: 100%">
   <legend>Imprimir Control de Notas</legend>
   <table>
     <tr>
