@@ -7,6 +7,14 @@
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
+  <script type="text/javascript">
+  function validateForm(formObj) {  
+      $("#yourSubmitId").html("Porfavor Espere..")
+      formObj.procesarButton.disabled = true;  
+      return true;  
+
+  }
+  </script>
   
 </head>
 <body>
@@ -25,7 +33,7 @@
     <?php require_once 'menu.php';
           ?>
 <!-- ../controllers/controller.cargaNota.php -->
-<form action="../controllers/controller.cargaNota.php" method="post" id="form1">
+<form action="../controllers/controller.cargaNota.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <input type="hidden" name="cedula" value="<?php echo $cedula;?>"/>
   <fieldset style="width: 50%">
   <legend>Carga de Evaluaciones</legend>
@@ -113,7 +121,8 @@
     </tr>
     <tr>
       <td colspan="2" align="center">
-    	<button type="submit" name="procesar" value="Crear" id="yourSubmitId" onclick="$('#form1').ketchup();">
+        <input type="hidden" name="procesar" value="Crear"/>
+    	<button type="submit" name="procesarButton" value="Crear" id="yourSubmitId" onclick="$('#form1').ketchup();">
     		<img alt="" src="../img/enviar.png" width="16" height="16"/>
     		Siguiente
     	</button><!-- onclick="javascript: form.action='../controllers/controller.cargaNota.php';" -->
