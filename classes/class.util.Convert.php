@@ -78,5 +78,9 @@
   	public function cambiarPuntoDecimal($cadena){
   		return str_replace(",", ".", $cadena);
   	}
+  	
+  	public function formatoCedula($numero){
+  		return number_format($numero,0,'','.');
+  	}
   }
 ?>
