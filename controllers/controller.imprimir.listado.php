@@ -9,7 +9,9 @@ require_once '../classes/class.model.Lapso.php';
 require_once '../classes/class.model.Materia.php';
 require_once '../classes/class.model.Examen.php';
 require_once '../classes/class.model.Evaluacion.php';
+require_once '../classes/class.util.Convert.php';
 
+$objConv= new Convert();
 $docente = new Docente();
 $lapso = new Lapso();
 $objCeccion = new Seccion();
@@ -75,7 +77,7 @@ if(isset($_POST)){
 			foreach ($objCeccion->estudiantes as $est){
 				//echo $est->getCedula()."<br>";
 				$excel->writeRow();
-				$excel->writeCol($est->getCedula());
+				$excel->writeCol($objConv->formatoCedula($est->getCedula()));
 				$excel->writeCol($est->getApellidos());
 				$excel->writeCol($est->getNombres());
 					
