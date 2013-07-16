@@ -168,13 +168,16 @@
              <th>APELLIDOS</th>
            </tr>  
              <?php
+                require_once '../classes/class.util.Convert.php';
+                $objCon = new Convert();
+                
                 if(sizeof($objCeccion->estudiantes) > 0){
                   $i=1;
                   foreach ($objCeccion->estudiantes as $estudiante){
                     $estilo = ( ($i % 2) == 0 )?"par":"impar";
                     echo "<tr id='$estilo'>";
                     echo "<td>$i</td>";
-                    echo "<td>".$estudiante->getCedula()."</td>";
+                    echo "<td>".$objCon->formatoCedula($estudiante->getCedula())."</td>";
                     echo "<td>".$estudiante->getApellidos()."</td>";
                     echo "<td>".$estudiante->getNombres()."</td>";
                     echo "</tr>"; 
