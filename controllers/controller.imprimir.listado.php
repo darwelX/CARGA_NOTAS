@@ -52,8 +52,10 @@ if(isset($_POST)){
 			
 			$objCeccion->findEstudiantesByMateria($materia->getId());
 			
-			$vocales = array("á", "é", "í", "ó", "ú","ò");
+			$vocales = array("á", "é", "í","ì", "ó", "ú","ò");
 			$nombre = str_replace($vocales, "", $materia->getNombre());
+			$nombre = str_replace(" ", "_", $nombre);
+			$nombre = str_replace("*", "", $nombre);
 			
 			$nombreXls = $docente->getCedula()."_".$nombre.".xls";
 			$excel=new ExcelWriter("../tmp/$nombreXls");
