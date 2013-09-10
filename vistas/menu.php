@@ -11,6 +11,7 @@
     		<li><a href="../vistas/crear_plan_evaluacion.php?&cedula=<?php echo $docente->getCedula();?>">Cargar Plan De Evaluacion</a></li>
     		<li><a href="../vistas/imprimir_planilla_notas.php?&cedula=<?php echo $docente->getCedula();?>">Imprimir Planilla de Notas</a></li>
     		<li><a href="../vistas/cargar_notas.php?&cedula=<?php echo $docente->getCedula();?>">Cargar Notas</a></li>
+    		<li><a href="../vistas/inscribir_taller.php">Inscribir Taller</a></li>
     		<li><a href="../vistas/login.php">Salir</a></li>
     	</ul>
     </div>
