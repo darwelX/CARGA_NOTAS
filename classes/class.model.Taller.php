@@ -47,7 +47,7 @@ class Taller implements Operaciones{
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion ");
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$this->id = $rsd['IDTALLER'];
-			$this->descripcion = $rsd[']TALLER'];
+			$this->descripcion = $rsd['TALLER'];
 			$this->codigo = $rsd['CODIGO'];
 			return true;
 		}
