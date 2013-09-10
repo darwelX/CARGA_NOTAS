@@ -9,9 +9,11 @@
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
   <script type="text/javascript">
   function validateForm(formObj) {  
-      $("#yourSubmitId").html("Porfavor Espere..")
-      formObj.procesarButton.disabled = true;  
-      return true;  
+	  if($('#form1').ketchup('isValid')){
+      	$("#yourSubmitId").html("Porfavor Espere..")
+      	formObj.procesarButton.disabled = true;  
+      	return true; 
+	  } 
 
   }
   </script>
