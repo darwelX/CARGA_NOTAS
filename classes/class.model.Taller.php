@@ -75,7 +75,17 @@ class Taller implements Operaciones{
 	}
 	
 	public function update(){
+		$this->conexion->conectar();
 		
+			$sql = "UPDATE ".Taller::$table;
+			$sql.= " SET ";
+			$sql .= "CODIGO = '".$this->codigo."', ";
+			$sql .= "TALLER = '".$this->descripcion."'";
+			$sql .= " WHERE IDTALLER = '".$this->id."'";
+			//echo $sql;
+			$this->stmt = $this->conexion->ejecutar($sql);
+			return $this->conexion->numeroFilas($this->stmt);
+	
 	}	
 		
 }
