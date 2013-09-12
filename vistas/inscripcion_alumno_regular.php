@@ -23,6 +23,7 @@
     
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.Taller.php" method="post" id="form1"  onsubmit="return validateForm(this);">
+  <input type="hidden" name="id_estudiante" value="<?php echo (isset($_POST['id_estudiante']))?$_POST['id_estudiante']:"";?>">
   <fieldset style="width: 99%%">
   <legend>INSCRIPCI&Oacute;N</legend>
   <table border="1" style="width: 98%;">
