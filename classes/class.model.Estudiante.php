@@ -70,7 +70,7 @@ class Estudiante implements Operaciones{
 	
 	public function find($id){
 		$this->conexion->conectar();
-		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDPERSONA = ".$id);
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDPERSONA = ".$id." AND PROCESO=3");
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$this->id = $rsd['IDPERSONA'];
 			$this->nacionalidad = $rsd['NACIONALIDAD'];
@@ -86,7 +86,7 @@ class Estudiante implements Operaciones{
 	
 	public function findBy($condicion){
 		$this->conexion->conectar();
-		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion ");
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion "." AND PROCESO=3");
 		//while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 		$rsd=$this->conexion->obtener_filas($this->stmt);
 		if(isset($rsd['IDPERSONA'])){
