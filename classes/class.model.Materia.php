@@ -65,5 +65,24 @@ class Materia {
 			return true;
 		}
 		return false;
-	}	
+	}
+
+	public function findMateriasPorTrimestreYCarrera($trimestre,$carrera){
+		$this->conexion->conectar();
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera");
+		$indice = 0;
+		$array=[];
+		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+			$materia=new Materia();
+			$materia->id = $rsd['IDASIGNATURA'];
+			$materia->codigo = $rsd['CODIGO'];
+			$materia->trimestre = $rsd['TRIMESTRE'];
+			$materia->nombre = $rsd['NOMBRE'];
+			$materia->creditos = $rsd['CREDITOS'];
+			$array[$indice]=$materia;
+			$indice++;
+			//return true;
+		}
+		return $array;		
+	}
 }
