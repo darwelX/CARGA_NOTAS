@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/class.model.Connect.php';
+require_once '../classes/class.model.Carrera.php';
 require_once '../classes/interface.Operaciones.php';
 
 class Estudiante implements Operaciones{
@@ -9,12 +10,14 @@ class Estudiante implements Operaciones{
 	private $nombres;
 	private $apellidos;
 	private $proceso;
+	public $carrera;
 	private $conexion;
 	private $stmt;
 	private $sqlAll = "SELECT * FROM PERSONAS";
 	
 	public function __construct(){
 		$this->conexion = new Connect();
+		$this->carrera = new Carrera();
 	}
 		
 	public function getId(){
@@ -75,6 +78,7 @@ class Estudiante implements Operaciones{
 			$this->apellidos= $rsd['APELLIDOS'];
 			$this->nombres = $rsd['NOMBRES'];
 			$this->proceso= $rsd['PROCESO'];
+			$this->carrera->find($rsd['CARRERAPRE']);
 			return true;
 		}
 		return false;		
@@ -92,6 +96,7 @@ class Estudiante implements Operaciones{
 			$this->apellidos= $rsd['APELLIDOS'];
 			$this->nombres = $rsd['NOMBRES'];
 			$this->proceso= $rsd['PROCESO'];
+			$this->carrera->find($rsd['CARRERAPRE']);
 			return true;
 		}
 		return false;
