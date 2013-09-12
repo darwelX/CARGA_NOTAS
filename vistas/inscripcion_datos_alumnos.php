@@ -20,7 +20,7 @@
   
 </head>
 <body>
-    
+<?php require_once '../classes/class.model.Lapso.php';?>  
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <fieldset style="width: 50%">
@@ -36,7 +36,34 @@
 					?>  	
     	</th>
     </tr>
-    
+
+   <tr>
+		<td><label>Lapso:</label></td>
+		<td>
+			<select name="lapso" data-validate="validate(required)">
+			        <option value="">--</option>
+			        <?php
+			           $lapso = new Lapso();
+			           $lapsos =$lapso->findAll();
+			           
+			           foreach ($lapsos as $lap){
+                           if(isset($_POST['lapso']) && $_POST['lapso'] != ""){
+                               if($_POST['lapso'] == $lap->getId()){
+						       	  echo "<option value='".$lap->getId()."' selected>".$lap->getDescripcion()."</option>";
+						       }else{
+                                  echo "<option value='".$lap->getId()."'>".$lap->getDescripcion()."</option>";
+                               }
+						       
+                           }
+                           else{
+                           	   echo "<option value='".$lap->getId()."'>".$lap->getDescripcion()."</option>";
+                           }
+                       } 
+			        ?>
+			</select>
+		</td>
+    </tr>
+        
     <tr>
         <td><label>Cedula:</label></td>
         <td><input type="text" name="cedula" id="cedula" data-validate="validate(required)" value="<?php echo (isset($_POST['cedula']))?$_POST['cedula']:'';?>"/></td>
