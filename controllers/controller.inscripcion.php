@@ -9,6 +9,10 @@ $mensaje="";
 $buscar = true;
 if(isset($_POST)){
 
+	if(isset($_POST['id_estudiante'])){
+		$estudiante->find($_POST['id_estudiante']);
+	}
+	
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Guardar"){
 
 	}
@@ -21,7 +25,7 @@ if(isset($_POST)){
 		$estudiante->setCedula($_POST['cedula']);
 		
 		if($estudiante->findBy("CEDULA = ".$estudiante->getCedula())){
-
+			$_POST['id_estudiante'] = $estudiante->getId();
 			require_once '../vistas/inscripcion_alumno_regular.php';
 			
 		}else{
