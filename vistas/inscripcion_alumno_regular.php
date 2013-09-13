@@ -3,10 +3,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--<link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
+  <!--<link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.css" media="screen" />-->
+  <!--<link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css" media="screen" />-->
+  <!--<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" media="screen" />-->
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
-  <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
+  <!--<script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>-->
+  <!-- <script type="text/javascript" src="../js/bootstrap.js"></script>-->
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript">
   function validateForm(formObj) {
 	  //if($('#form1').ketchup('isValid')){
@@ -22,20 +28,26 @@
 <body>
 <?php require_once '../classes/class.model.Trimestre.php';
 require_once '../classes/class.model.Materia.php';
+require_once '../classes/class.model.Horario.php';
 ?>    
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <input type="hidden" name="id_estudiante" value="<?php echo (isset($_POST['id_estudiante']))?$_POST['id_estudiante']:"";?>">
   <input type="hidden" id="procesar" name="procesar" value="">
-  <fieldset style="width: 99%%">
+  <input type="hidden" id="id_asignatura_eliminar" name="id_asignatura_eliminar" value=""/>
+  <input type="hidden" id="id_seccion_eliminar" name="id_seccion_eliminar" value=""/>
+  <fieldset style="width: 150%">
   <legend>INSCRIPCI&Oacute;N</legend>
-  <table border="1" style="width: 98%;">
+  <table class="table table-striped table-bordered" style="width: 100%;">
 
     <tr>
-    	<th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-  		        	<?php 
-		        		if(isset($mensaje)){
-							echo $mensaje;
+    	<th colspan="2" >
+						 <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
                         }
 					?>  	
     	</th>
@@ -43,13 +55,13 @@ require_once '../classes/class.model.Materia.php';
     
     <tr>
       <td colspan="2" style="text-align: center;">
-          INSCRIPCI&Oacute;N ALUMNO REGULAR EN NUEVO SEMESTRE
+          <h4>INSCRIPCI&Oacute;N ALUMNO REGULAR EN NUEVO SEMESTRE</h4>
       </td>
     </tr>
  
     <tr>
       <td colspan="2" style="text-align: left;">
-          <b>LAPSO:</b><?php echo $lapso->getDescripcion();?>
+          LAPSO:<b><?php echo $lapso->getDescripcion();?></b>
           <input type="hidden" name="lapso" value="<?php echo (isset($_POST['lapso']))? $_POST['lapso']:"";?>"/>
       </td>
     </tr>
@@ -64,18 +76,18 @@ require_once '../classes/class.model.Materia.php';
     </tr>
     
     <tr>
-       <td colspan="2" style="text-align: center;"><b>CARGA ACADEMICA</b></td>
+       <td colspan="2" style="text-align: center;"><h5>CARGA ACADEMICA</h5></td>
     </tr>
     
     <tr>
         <td style="text-align: center;">
-        	<b>DISPONIBLE</b>
+        	<h5>DISPONIBLE</h5>
         	<center>
-        	<table border="1" style="width: 100%;">
+        	<table class="table table-striped table-bordered" style="width: 100%;">
         		<tr>
         			<td style="text-align: center;">
         			    TRIMESTRE<br>
-        			<select name="trimestre" onchange="javascript: form.submit()" size="14">
+        			<select class="span1" name="trimestre" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
 			        <?php
 			           $trimestre = new Trimestre();
@@ -100,7 +112,7 @@ require_once '../classes/class.model.Materia.php';
         			
         			<td style="text-align: center;">
         			ASIGNATURAS<br> 
-        			<select name="asignatura" onchange="javascript: form.submit()" size="14">
+        			<select class="span8" name="asignatura" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
         			<?php
         			if(isset($materias) && count($materias) > 0 ){
@@ -123,7 +135,7 @@ require_once '../classes/class.model.Materia.php';
         			</td>
         			
         			<td style="text-align: center;">SECCION<br>
-        			<select name="seccion" onchange="javascript: form.submit()" size="14">
+        			<select class="span1" name="seccion" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
         			<?php
         			if(isset($secciones) && count($secciones) > 0 ){
@@ -152,22 +164,40 @@ require_once '../classes/class.model.Materia.php';
         
         <td style="text-align: center;">
            SELECCIONADO
-           <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" onclick="$('#procesar').attr('value','Agregar Unidad');">
+           <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" class="btn" onclick="$('#procesar').attr('value','Agregar Unidad');">
     		<img alt="" src="../img/enviar.png" width="16" height="16"/>
     		Cargar Unidad
     	    </button>
     	    <br>
-    	    SECCION 
-    	    <table>
+    	     
+    	    <table class="table table-striped table-hover table-bordered">
+    	       <tr>
+    	        <th>SECCION</th>
     	    	<th>ASIGNATURA</th>
     	    	<th>HORARIO</th>
+    	    	<th>BORRAR</th>
+    	       </tr>
+    	       
+    	       <?php foreach ($horarios as $hor){
+    	       	   echo "<tr>";
+    	       	   echo "<td style='text-align: left;'>".$hor->seccion->getDescripcion()."</td>";
+    	       	   echo "<td style='text-align: left;'>".$hor->materia->getNombre()."</td>";
+    	       	   echo "<td style='text-align: left;'>".$hor->getHorario()."</td>";?>
+    	       	   <td>
+    	       	   
+    	       	   <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" class="btn btn-primary" onclick="$('#id_seccion_eliminar').attr('value','<?=$hor->seccion->getId()?>');$('#id_asignatura_eliminar').attr('value','<?=$hor->materia->getId()?>');$('#procesar').attr('value','Eliminar');">
+    		        Eliminar
+    	           </button>
+    	           </td>
+    	       	   <?php echo "</tr>";
+    	       }?>
     	    </table>
         </td>
     </tr> 
     
     <tr>
         <td style="text-align: center;">
-        				TALLERES PERMANENTES
+        				<h5>TALLERES PERMANENTES</h5>
         </td>
         			
         <td style="text-align: center;">
