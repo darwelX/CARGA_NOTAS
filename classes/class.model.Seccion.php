@@ -151,5 +151,25 @@ class Seccion {
 		}
 		return false;
 	}	
+	
+	public function findSeccionsByLapsoYCarreraYTrimestre($lapso, $carrera, $trimestre){
+		$this->conexion->conectar();
+		//echo $this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera AND LAPSO = $lapso";
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera AND LAPSO = $lapso");
+		$indice = 0;
+		$array=[];
+		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+			$seccion=new Seccion();
+			$seccion->id = $rsd['IDSECCION'];
+			$seccion->descripcion = $rsd['SECCION'];
+			$seccion->trimestre = $rsd['TRIMESTRE'];
+			$seccion->capacidad = $rsd['CAPACIDAD'];
+			$seccion->carrera->find($rsd['CARRERA']);
+			$array[$indice]=$seccion;
+			$indice++;
+			//return true;
+		}
+		return $array;
+	}
 }
 ?>
