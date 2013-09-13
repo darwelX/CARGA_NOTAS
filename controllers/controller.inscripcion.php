@@ -2,11 +2,13 @@
 require_once '../classes/class.model.Connect.php';
 require_once '../classes/class.model.Estudiante.php';
 require_once '../classes/class.model.Materia.php';
+require_once '../classes/class.model.Seccion.php';
 require_once '../classes/class.model.Lapso.php';
 require_once '../classes/class.util.Convert.php';
 
 $estudiante = new Estudiante();
 $materias = [];
+$secciones = [];
 $lapso = new Lapso();
 $convert = new Convert();
 $mensaje="";
@@ -21,17 +23,31 @@ if(isset($_POST)){
 		$lapso->find($_POST['lapso']);
 	}
 	
-	if(isset($_POST['trimestre']) || $_POST['trimestre'] != ""){
+	if(isset($_POST['trimestre']) && $_POST['trimestre'] != ""){
 		$materia = new Materia();
-		$materias = $materia->findMateriasPorTrimestreYCarrera($_POST['trimestre'], $estudiante->carrera->getId());		
+		$materias = $materia->findMateriasPorTrimestreYCarrera($_POST['trimestre'], $estudiante->carrera->getId());
+		if(isset($_POST['asignatura']) && $_POST['asignatura'] != ""){
+			$seccion = new Seccion();
+			$secciones = $seccion->findSeccionsByLapsoYCarreraYTrimestre($lapso->getId(),$estudiante->carrera->getId(),$_POST['trimestre']);
+			
+		}		
 	}
-	
+		
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Agregar Unidad"){
 		
 		if( !isset($_POST['trimestre']) || $_POST['trimestre'] == "" ){
 			$mensaje="Seleccione un Trimestre<br>";
 		}else{
-			
+			if( !isset($_POST['asignatura']) || $_POST['asignatura'] == "" ){
+				$mensaje="Seleccione una Asignatura<br>";
+			}
+			else{
+				if(!isset($_POST['seccion']) || $_POST['seccion'] == ""){
+					$mensaje="Seleccione una Seccion<br>";
+				}else{
+					
+				}
+			}
 		}
 	}
 
