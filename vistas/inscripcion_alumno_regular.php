@@ -121,7 +121,29 @@ require_once '../classes/class.model.Materia.php';
                       }//endif?>
                       </select>
         			</td>
-        			<td style="text-align: center;">SECCION</td>
+        			
+        			<td style="text-align: center;">SECCION<br>
+        			<select name="seccion" onchange="javascript: form.submit()" size="14">
+			        <option value="">--</option>
+        			<?php
+        			if(isset($secciones) && count($secciones) > 0 ){
+ 						foreach ($secciones as $sec){
+						  if(isset($_POST['seccion']) && $_POST['seccion'] != ""){
+		                       if($_POST['seccion'] == $sec->getId()){
+			                      echo "<option value='".$sec->getId()."' selected>".$sec->getDescripcion()."</option>";
+		                       }else{
+			                      echo "<option value='".$sec->getId()."'>".$sec->getDescripcion()."</option>";
+		                       }
+		                       
+		                  }//end if
+			              else{
+		                      echo "<option value='".$sec->getId()."'>".$sec->getDescripcion()."</option>";
+	                      }
+                        }//end foreach
+                        
+                      }//endif?>
+                      </select>        			
+        			</td>
         		</tr>
 
         	</table>
@@ -134,6 +156,12 @@ require_once '../classes/class.model.Materia.php';
     		<img alt="" src="../img/enviar.png" width="16" height="16"/>
     		Cargar Unidad
     	    </button>
+    	    <br>
+    	    SECCION 
+    	    <table>
+    	    	<th>ASIGNATURA</th>
+    	    	<th>HORARIO</th>
+    	    </table>
         </td>
     </tr> 
     
