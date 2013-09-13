@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/class.model.Connect.php';
+require_once '../classes/class.model.Horario.php';
 require_once '../classes/class.model.Estudiante.php';
 require_once '../classes/class.model.Materia.php';
 require_once '../classes/class.model.Seccion.php';
@@ -7,21 +8,34 @@ require_once '../classes/class.model.Lapso.php';
 require_once '../classes/class.util.Convert.php';
 
 $estudiante = new Estudiante();
+$tipo_msg="";
 $materias = [];
 $secciones = [];
+$horarios = [];
 $lapso = new Lapso();
 $convert = new Convert();
 $mensaje="";
 $buscar = true;
+//print_r($_POST);
 if(isset($_POST)){
     
+	$h = new Horario();
+	$swh1=false;
+	$swh2=false;
 	if(isset($_POST['id_estudiante'])){
 		$estudiante->find($_POST['id_estudiante']);
+		$h->estudiante->find($estudiante->getId());
+		$h->carrera->find($estudiante->carrera->getId());
+		$swh1=true;
 	}
 
 	if(isset($_POST['lapso'])){
 		$lapso->find($_POST['lapso']);
+		$h->lapso->find($lapso->getId());
+		$swh2=true;
 	}
+	
+
 	
 	if(isset($_POST['trimestre']) && $_POST['trimestre'] != ""){
 		$materia = new Materia();
@@ -32,23 +46,66 @@ if(isset($_POST)){
 			
 		}		
 	}
+
+	if(isset($_POST['procesar']) && $_POST['procesar'] == "Eliminar"){
+		$horario = new Horario();
+		$horario->lapso->find($lapso->getId());
+		$horario->carrera->find($estudiante->carrera->getId());
+		$horario->seccion->find($_POST['id_seccion_eliminar']);
+		$horario->estudiante->find($estudiante->getId());
+		$horario->materia->find($_POST['id_asignatura_eliminar']);
 		
+		$eli = $horario->eliminar();
+		if($eli){
+			$tipo_msg="info";
+			$mensaje="Se eliminaron $eli registros en horarios";
+		}else{
+			$tipo_msg="info";
+			$mensaje="Registro no eliminado";
+		}
+	}
+	
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Agregar Unidad"){
 		
 		if( !isset($_POST['trimestre']) || $_POST['trimestre'] == "" ){
-			$mensaje="Seleccione un Trimestre<br>";
+			$tipo_msg="error";
+			$mensaje="Seleccione un Trimestre";
 		}else{
 			if( !isset($_POST['asignatura']) || $_POST['asignatura'] == "" ){
-				$mensaje="Seleccione una Asignatura<br>";
+				$tipo_msg="error";
+				$mensaje="Seleccione una Asignatura";
 			}
 			else{
 				if(!isset($_POST['seccion']) || $_POST['seccion'] == ""){
-					$mensaje="Seleccione una Seccion<br>";
+					$tipo_msg="error";
+					$mensaje="Seleccione una Seccion";
 				}else{
+					
+					$horario = new Horario();
+					$horario->lapso->find($lapso->getId());
+					$horario->carrera->find($estudiante->carrera->getId());
+					$horario->seccion->find($_POST['seccion']);
+					$horario->estudiante->find($estudiante->getId());
+					$horario->setTrimestre($_POST['trimestre']);
+					$horario->materia->find($_POST['asignatura']);
+					
+					$num = $horario->insert();
+					if(!$num){
+						$tipo_msg="error";
+						$mensaje="No existe horario relacionado con la asignatura y seccion para el trimestre indicado";
+					}else{
+						$tipo_msg="info";
+						$mensaje = "Se registraron $num registros en horarios";
+					}
+					
 					
 				}
 			}
 		}
+	}
+	
+	if($swh1 && $swh2){
+		$horarios = $h->findAll();
 	}
 
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Actualizar"){
