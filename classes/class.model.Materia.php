@@ -71,7 +71,7 @@ class Materia {
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera");
 		$indice = 0;
-		$array=[];
+		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$materia=new Materia();
 			$materia->id = $rsd['IDASIGNATURA'];
