@@ -9,16 +9,15 @@ require_once '../classes/class.util.Convert.php';
 
 $estudiante = new Estudiante();
 $tipo_msg="";
-$materias = [];
-$secciones = [];
-$horarios = [];
+$materias = array();
+$secciones = array();
+$horarios = array();
 $lapso = new Lapso();
 $convert = new Convert();
 $mensaje="";
 $buscar = true;
 //print_r($_POST);
 if(isset($_POST)){
-    
 	$h = new Horario();
 	$swh1=false;
 	$swh2=false;
@@ -27,15 +26,23 @@ if(isset($_POST)){
 		$h->estudiante->find($estudiante->getId());
 		$h->carrera->find($estudiante->carrera->getId());
 		$swh1=true;
+	}else if(isset($_POST['cedula'])){
+		$estudiante->setCedula($_POST['cedula']);
+	    $estudiante->findBy("CEDULA = ".$estudiante->getCedula());
+		$h->estudiante->find($estudiante->getId());
+		$h->carrera->find($estudiante->carrera->getId());
+		$_POST['id_estudiante'] = $estudiante->getId();
+		$swh1=true;
 	}
-
+	
 	if(isset($_POST['lapso'])){
 		$lapso->find($_POST['lapso']);
 		$h->lapso->find($lapso->getId());
 		$swh2=true;
 	}
 	
-
+	   
+    //echo $swh1." - ".$swh2;
 	
 	if(isset($_POST['trimestre']) && $_POST['trimestre'] != ""){
 		$materia = new Materia();
@@ -104,9 +111,7 @@ if(isset($_POST)){
 		}
 	}
 	
-	if($swh1 && $swh2){
-		$horarios = $h->findAll();
-	}
+
 
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Actualizar"){
 
@@ -119,6 +124,7 @@ if(isset($_POST)){
 			$_POST['id_estudiante'] = $estudiante->getId();
 			
 		}else{
+			$tipo_msg="info";
 			$mensaje="Estudiante no encontrado";
 			require_once '../vistas/inscripcion_datos_alumnos.php';
 			unset($buscar);
@@ -127,6 +133,10 @@ if(isset($_POST)){
 
 	}
 
+	if($swh1 && $swh2){
+		$horarios = $h->findAll();
+	}
+	
 	require_once '../vistas/inscripcion_alumno_regular.php';
 }
 ?>
