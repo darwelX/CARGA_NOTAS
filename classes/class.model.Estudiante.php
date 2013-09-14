@@ -87,7 +87,7 @@ class Estudiante implements Operaciones{
 	public function findBy($condicion){
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion "." AND PROCESO=3");
-		//while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+		//echo $this->sqlAll." WHERE $condicion "." AND PROCESO=3"; 
 		$rsd=$this->conexion->obtener_filas($this->stmt);
 		if(isset($rsd['IDPERSONA'])){
 			$this->id = $rsd['IDPERSONA'];
