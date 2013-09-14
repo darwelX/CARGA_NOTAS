@@ -73,7 +73,7 @@ class Lapso implements Operaciones{
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." ORDER BY IDLAPSO DESC");
 		$indice = 0;
-		$array=[];
+		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$lapso=new Lapso();
 			$lapso->id = $rsd['IDLAPSO'];
