@@ -157,7 +157,7 @@ class Seccion {
 		//echo $this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera AND LAPSO = $lapso";
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE TRIMESTRE = $trimestre AND CARRERA = $carrera AND LAPSO = $lapso");
 		$indice = 0;
-		$array=[];
+		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$seccion=new Seccion();
 			$seccion->id = $rsd['IDSECCION'];
