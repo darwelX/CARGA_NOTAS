@@ -3,6 +3,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.css" media="screen" />
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/twitter-bootstrap-hover-dropdown.min.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
 <meta charset="ISO-8859-1">
@@ -10,8 +11,8 @@
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
 </head>
 <body>
-	<div id="principal1" class="btn-group">
-	    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" onclick='$("#principal1").addClass( "open" );'>Notas <span class="caret"></span></button>
+	<div class="btn-group">
+	    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">Notas <span class="caret"></span></button>
 		<ul class="dropdown-menu">
 			<!-- dropdown menu links -->
     		<li><a href="../vistas/crear_plan_evaluacion.php?&cedula=<?php echo $docente->getCedula();?>">Cargar Plan De Evaluacion</a></li>
@@ -20,8 +21,8 @@
 		</ul>
 	</div>
 	
-	<div id="principal2" class="btn-group">
-	    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" onclick='$("#principal2").addClass( "open" );'>Talleres <span class="caret"></span></button>
+	<div class="btn-group">
+	    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">Talleres <span class="caret"></span></button>
 		<ul class="dropdown-menu">
 			<!-- dropdown menu links -->
     		<li><a href="../vistas/inscribir_taller.php">Inscribir Taller</a></li>
@@ -29,8 +30,8 @@
 		</ul>
 	</div>
 	
-	<div id="principal3" class="btn-group">
-	    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown" onclick='$("#principal3").addClass( "open" );'>Inscripciones <span class="caret"></span></button>
+	<div class="btn-group">
+	    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">Inscripciones <span class="caret"></span></button>
 		<ul class="dropdown-menu">
 			<!-- dropdown menu links -->
     		<li><a href="../vistas/inscripcion_datos_alumnos.php">Alumno Regular</a></li>
