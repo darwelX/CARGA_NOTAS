@@ -29,7 +29,7 @@ class Trimestre implements Operaciones{
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll);
 		$indice = 0;
-		$array=[];
+		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$trimestre=new Trimestre();
 			$trimestre->numero = $rsd['TRIMESTRE'];
