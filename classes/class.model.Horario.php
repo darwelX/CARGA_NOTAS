@@ -61,7 +61,7 @@ class Horario implements Operaciones{
 		$this->stmt = $this->conexion->ejecutar($sql);
 		//echo $sql;
 		$indice = 0;
-		$array=[];
+		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$horario=new Horario();
 			$horario->lapso->find($rsd['LAPSO']);
