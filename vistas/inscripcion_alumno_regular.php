@@ -29,6 +29,7 @@
 <?php require_once '../classes/class.model.Trimestre.php';
 require_once '../classes/class.model.Materia.php';
 require_once '../classes/class.model.Horario.php';
+require_once '../classes/class.model.Taller.php';
 ?>    
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
@@ -198,6 +199,62 @@ require_once '../classes/class.model.Horario.php';
     <tr>
         <td style="text-align: center;">
         				<h5>TALLERES PERMANENTES</h5>
+        	<table class="table table-striped table-bordered">
+        		<tr>
+        		    <td style="text-align: center;">TALLER<br>
+        		    <select class="span4" name="taller" onchange="javascript: form.submit()" size="7">
+			        <option value="">--</option>
+			        <?php
+			           $taller = new Taller();
+			           $talleres =$taller->findAll();
+			           
+			           foreach ($talleres as $ta){
+                           if(isset($_POST['taller']) && $_POST['taller'] != ""){
+                               if($_POST['taller'] == $ta->getId()){
+						       	  echo "<option value='".$ta->getId()."' selected>".$ta->getDescripcion()."</option>";
+						       }else{
+                                  echo "<option value='".$ta->getId()."'>".$ta->getDescripcion()."</option>";
+                               }
+						       
+                           }
+                           else{
+                           	   echo "<option value='".$ta->getId()."'>".$ta->getDescripcion()."</option>";
+                           }
+                       } 
+			        ?>
+			        </select>
+        	    	</td>
+        	    	
+        		    <td style="text-align: center;">SECCION<br>
+        		    <select class="span1" name="seccion_taller" onchange="javascript: form.submit()" size="7">
+			        <option value="">--</option>
+			        <?php
+			           if(isset($_POST['taller']) && $_POST['taller'] != ""){
+
+			           $taller = new Taller();
+			           $taller->findBy("IDTALLER = ".$_POST['taller']);
+			           $taller->findSeccionesByLapso($lapso->getId());
+			           
+			           foreach ($taller->secciones as $sec){
+                           if(isset($_POST['seccion_taller']) && $_POST['seccion_taller'] != ""){
+                               if($_POST['seccion_taller'] == $ta->getId()){
+						       	  echo "<option value='".$sec->getId()."' selected>".$sec->getDescripcion()."</option>";
+						       }else{
+                                  echo "<option value='".$sec->getId()."'>".$sec->getDescripcion()."</option>";
+                               }
+						       
+                           }
+                           else{
+                           	   echo "<option value='".$sec->getId()."'>".$sec->getDescripcion()."</option>";
+                           }
+                       } 
+                       
+                       }
+			        ?>
+			        </select>
+        	    	</td>        	    	
+        		</tr>
+        	</table>
         </td>
         			
         <td style="text-align: center;">
