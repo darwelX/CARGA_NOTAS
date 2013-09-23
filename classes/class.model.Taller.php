@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/interface.Operaciones.php';
+require_once '../classes/class.model.SeccionTaller.php';
 require_once '../classes/class.model.Connect.php';
 
 class Taller implements Operaciones{
@@ -8,11 +9,13 @@ class Taller implements Operaciones{
 	private $codigo;
 	private $descripcion;
 	private $conexion;
+	public $secciones;
 	private $sqlAll = "SELECT * FROM TALLERES";
 	private static $table = "TALLERES";
 
 	public function __construct(){
 		$this->conexion = new Connect();
+		$this->secciones = array();
 	}
 	
 	public function getDescripcion(){
@@ -44,15 +47,24 @@ class Taller implements Operaciones{
 	
 	public function findBy($condicion){
 		$this->conexion->conectar();
+		//echo "<h1>".$this->sqlAll." WHERE $condicion </h1>aquiiiiiii 2 <br>";
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion ");
+		
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$this->id = $rsd['IDTALLER'];
 			$this->descripcion = $rsd['TALLER'];
 			$this->codigo = $rsd['CODIGO'];
+			
+				
 			return true;
 		}
 		return false;
-		
+	
+	}	
+	
+	public function findSeccionesByLapso($lapso){
+		$seccion_taller = new SeccionTaller();
+		$this->secciones = $seccion_taller->findByTaller($this->getId(),$lapso);
 	}
 	
 	public function insert(){
@@ -86,7 +98,26 @@ class Taller implements Operaciones{
 			$this->stmt = $this->conexion->ejecutar($sql);
 			return $this->conexion->numeroFilas($this->stmt);
 	
-	}	
+	}
+
+	public function findAll(){
+		$this->conexion->conectar();
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll);
+		$indice = 0;
+		$array=array();
+		$seccion_taller = new SeccionTaller();
+		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+			$taller=new Taller();
+			$taller->id = $rsd['IDTALLER'];
+			$taller->descripcion = $rsd['TALLER'];
+			$taller->codigo = $rsd['CODIGO'];
+			//$taller->secciones = $seccion_taller->findByTaller($rsd['IDTALLER']);
+			$array[$indice]=$taller;
+			$indice++;
+			//return true;
+		}
+		return $array;
+	}
 		
 }
 ?>
