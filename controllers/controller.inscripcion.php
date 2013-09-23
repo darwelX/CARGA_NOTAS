@@ -22,17 +22,29 @@ if(isset($_POST)){
 	$swh1=false;
 	$swh2=false;
 	if(isset($_POST['id_estudiante'])){
-		$estudiante->find($_POST['id_estudiante']);
-		$h->estudiante->find($estudiante->getId());
-		$h->carrera->find($estudiante->carrera->getId());
-		$swh1=true;
+		
+		if($estudiante->find($_POST['id_estudiante'])){
+			$h->estudiante->find($estudiante->getId());
+			$h->carrera->find($estudiante->carrera->getId());
+			$swh1=true;
+		}else{
+			$tipo_msg="error";
+			$mensaje="Estudiante no encontrado";			
+		}
+
+	
 	}else if(isset($_POST['cedula'])){
 		$estudiante->setCedula($_POST['cedula']);
-	    $estudiante->findBy("CEDULA = ".$estudiante->getCedula());
-		$h->estudiante->find($estudiante->getId());
-		$h->carrera->find($estudiante->carrera->getId());
-		$_POST['id_estudiante'] = $estudiante->getId();
-		$swh1=true;
+	    if($estudiante->findBy("CEDULA = ".$estudiante->getCedula())){
+	    	$h->estudiante->find($estudiante->getId());
+	    	$h->carrera->find($estudiante->carrera->getId());
+	    	$_POST['id_estudiante'] = $estudiante->getId();
+	    	$swh1=true;
+	    }else{
+	    	$tipo_msg="error";
+	    	$mensaje="Estudiante no encontrado";	    	
+	    }
+
 	}
 	
 	if(isset($_POST['lapso'])){
@@ -128,6 +140,7 @@ if(isset($_POST)){
 			$mensaje="Estudiante no encontrado";
 			require_once '../vistas/inscripcion_datos_alumnos.php';
 			unset($buscar);
+			exit();
 		}
 		
 
