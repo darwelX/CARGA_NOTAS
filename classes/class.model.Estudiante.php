@@ -70,6 +70,7 @@ class Estudiante implements Operaciones{
 	
 	public function find($id){
 		$this->conexion->conectar();
+		//echo $this->sqlAll." WHERE IDPERSONA = ".$id." AND PROCESO=3";
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDPERSONA = ".$id." AND PROCESO=3");
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$this->id = $rsd['IDPERSONA'];
