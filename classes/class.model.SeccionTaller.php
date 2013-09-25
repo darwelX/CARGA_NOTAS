@@ -87,6 +87,18 @@ class SeccionTaller {
 		return $array;
 	}	
 	
-	
+	public function find($id){
+		$this->conexion->conectar();
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDSECCION = ".$id);
+		//echo "<br>".$this->sqlAll." WHERE IDSECCION = ".$id." aquiiiiiiii";
+		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+			$this->id = $rsd['IDSECCION'];
+			$this->descripcion = $rsd['SECCION'];
+			$this->capacidad = $rsd['CAPACIDAD'];
+			$this->lapso->find($rsd['LAPSO']);
+			return true;
+		}
+		return false;
+	}	
 }
 ?>
