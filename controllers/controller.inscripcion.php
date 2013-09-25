@@ -1,17 +1,20 @@
 <?php
 require_once '../classes/class.model.Connect.php';
 require_once '../classes/class.model.Horario.php';
+require_once '../classes/class.model.HorarioTaller.php';
 require_once '../classes/class.model.Estudiante.php';
 require_once '../classes/class.model.Materia.php';
 require_once '../classes/class.model.Seccion.php';
 require_once '../classes/class.model.Lapso.php';
 require_once '../classes/class.util.Convert.php';
+require_once '../classes/class.model.SeccionTaller.php';
 
 $estudiante = new Estudiante();
 $tipo_msg="";
 $materias = array();
 $secciones = array();
 $horarios = array();
+$horariosTaller = array();
 $lapso = new Lapso();
 $convert = new Convert();
 $mensaje="";
@@ -19,6 +22,7 @@ $buscar = true;
 //print_r($_POST);
 if(isset($_POST)){
 	$h = new Horario();
+	$ht = new HorarioTaller();
 	$swh1=false;
 	$swh2=false;
 	if(isset($_POST['id_estudiante'])){
@@ -47,13 +51,21 @@ if(isset($_POST)){
 
 	}
 	
+	if($swh1){
+		$ht->estudiante->find($estudiante->getId());
+		$ht->carrera->find($estudiante->carrera->getId());
+	}
+	
+	
 	if(isset($_POST['lapso'])){
 		$lapso->find($_POST['lapso']);
 		$h->lapso->find($lapso->getId());
 		$swh2=true;
 	}
 	
-	   
+	if($swh2){
+		$ht->lapso->find($lapso->getId());
+	}   
     //echo $swh1." - ".$swh2;
 	
 	if(isset($_POST['trimestre']) && $_POST['trimestre'] != ""){
@@ -66,26 +78,61 @@ if(isset($_POST)){
 		}		
 	}
 
-	if(isset($_POST['procesar']) && $_POST['procesar'] == "Eliminar"){
-		$horario = new Horario();
+	if(isset($_POST['procesar']) && $_POST['procesar'] == "Eliminar Taller"){
+		$horario = new HorarioTaller();
 		$horario->lapso->find($lapso->getId());
 		$horario->carrera->find($estudiante->carrera->getId());
-		$horario->seccion->find($_POST['id_seccion_eliminar']);
+		//print_r($_POST); 
+		$horario->seccion->find($_POST['id_seccion_taller_eliminar']);
 		$horario->estudiante->find($estudiante->getId());
-		$horario->materia->find($_POST['id_asignatura_eliminar']);
+		$horario->taller->find($_POST['id_taller_eliminar']);
 		
 		$eli = $horario->eliminar();
 		if($eli){
 			$tipo_msg="info";
-			$mensaje="Se eliminaron $eli registros en horarios";
+			$mensaje="Se eliminaron $eli registros en horarios talleres";
 		}else{
 			$tipo_msg="info";
 			$mensaje="Registro no eliminado";
 		}
 	}
 	
-	if(isset($_POST['procesar']) && $_POST['procesar'] == "Agregar Unidad"){
+	if(isset($_POST['procesar']) && $_POST['procesar'] == "Agregar Taller"){
 		
+			if( !isset($_POST['taller']) || $_POST['taller'] == "" ){
+				$tipo_msg="error";
+				$mensaje="Seleccione un Taller";
+			}
+			else{
+				if(!isset($_POST['seccion_taller']) || $_POST['seccion_taller'] == ""){
+					$tipo_msg="error";
+					$mensaje="Seleccione una Seccion para el Taller";
+				}else{
+					
+					$horarioT = new HorarioTaller();
+					$horarioT->lapso->find($lapso->getId());
+					$horarioT->carrera->find($estudiante->carrera->getId());
+					$horarioT->seccion->find($_POST['seccion_taller']);
+					$horarioT->taller->find($_POST['taller']);
+					$horarioT->estudiante->find($estudiante->getId());
+					
+					$num = $horarioT->insert();
+					if(!$num){
+						$tipo_msg="error";
+						$mensaje="No existe horario relacionado con Taller indicado";
+					}else{
+						$tipo_msg="info";
+						$mensaje = "Se registraron $num registros en horarios Talleres ";
+					}
+					
+					
+				}
+			}
+		
+	}
+	
+	if(isset($_POST['procesar']) && $_POST['procesar'] == "Agregar Unidad"){
+	
 		if( !isset($_POST['trimestre']) || $_POST['trimestre'] == "" ){
 			$tipo_msg="error";
 			$mensaje="Seleccione un Trimestre";
@@ -99,7 +146,7 @@ if(isset($_POST)){
 					$tipo_msg="error";
 					$mensaje="Seleccione una Seccion";
 				}else{
-					
+						
 					$horario = new Horario();
 					$horario->lapso->find($lapso->getId());
 					$horario->carrera->find($estudiante->carrera->getId());
@@ -107,7 +154,7 @@ if(isset($_POST)){
 					$horario->estudiante->find($estudiante->getId());
 					$horario->setTrimestre($_POST['trimestre']);
 					$horario->materia->find($_POST['asignatura']);
-					
+						
 					$num = $horario->insert();
 					if(!$num){
 						$tipo_msg="error";
@@ -116,14 +163,13 @@ if(isset($_POST)){
 						$tipo_msg="info";
 						$mensaje = "Se registraron $num registros en horarios";
 					}
-					
-					
+						
+						
 				}
 			}
 		}
 	}
 	
-
 
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Actualizar"){
 
@@ -148,6 +194,7 @@ if(isset($_POST)){
 
 	if($swh1 && $swh2){
 		$horarios = $h->findAll();
+		$horariosTaller = $ht->findAll();
 	}
 	
 	require_once '../vistas/inscripcion_alumno_regular.php';
