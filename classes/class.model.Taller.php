@@ -42,7 +42,19 @@ class Taller implements Operaciones{
 		return $this->id;
 	}
 	public function find($id){
+		$this->conexion->conectar();
+		//echo "<h1>".$this->sqlAll." WHERE $condicion </h1>aquiiiiiii 2 <br>";
+		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE IDTALLER = $id ");
 		
+		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
+			$this->id = $rsd['IDTALLER'];
+			$this->descripcion = $rsd['TALLER'];
+			$this->codigo = $rsd['CODIGO'];
+				
+		
+			return true;
+		}
+		return false;
 	}
 	
 	public function findBy($condicion){
