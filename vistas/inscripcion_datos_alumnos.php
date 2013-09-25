@@ -3,8 +3,10 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--<link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script>  
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
   <script type="text/javascript">
@@ -22,24 +24,25 @@
 <body>
 <?php require_once '../classes/class.model.Lapso.php';?>  
 <!-- ../controllers/controller.cargaNota.php -->
-<form action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
+<form class="form-horizontal" action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <fieldset style="width: 50%">
   <legend>Busccar Estudiante</legend>
-  <table>
 
-    <tr>
-    	<th colspan="8" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-  		        	<?php 
-		        		if(isset($mensaje)){
-							echo $mensaje;
+
+						 <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
                         }
 					?>  	
-    	</th>
-    </tr>
 
-   <tr>
-		<td><label>Lapso:</label></td>
-		<td>
+
+     <div class="control-group">
+        <label class="control-label">Lapso:</label>
+           
+           <div class="controls">
 			<select name="lapso" data-validate="validate(required)">
 			        <option value="">--</option>
 			        <?php
@@ -61,26 +64,29 @@
                        } 
 			        ?>
 			</select>
-		</td>
-    </tr>
+			
+		   </div>
+        </div>
         
-    <tr>
-        <td><label>Cedula:</label></td>
-        <td><input type="text" name="cedula" id="cedula" data-validate="validate(required)" value="<?php echo (isset($_POST['cedula']))?$_POST['cedula']:'';?>"/></td>
-    </tr>
-    
+		<div class="control-group">	
+			<label class="control-label">Cedula:</label>
+			<div class="controls">
+			   <input type="text" name="cedula" id="cedula" data-validate="validate(required)" value="<?php echo (isset($_POST['cedula']))?$_POST['cedula']:'';?>"/>
+			</div>
+        </div>
        
-    <tr>
-      <td colspan="2" align="center">
+
         <input type="hidden" name="procesar" value="Buscar"/>
-    	<button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" onclick="$('#form1').ketchup();">
+        
+      <div class="control-group">
+        <div class="controls">
+    	   <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" onclick="$('#form1').ketchup();">
     		<img alt="" src="../img/enviar.png" width="16" height="16"/>
     		Buscar
-    	</button><!-- onclick="javascript: form.action='../controllers/controller.cargaNota.php';" -->
-      </td>
-    </tr>
-    
-  </table>
+    	   </button><!-- onclick="javascript: form.action='../controllers/controller.cargaNota.php';" -->
+    	</div>
+      </div>
+
   </fieldset>
    
 </form>
