@@ -14,7 +14,7 @@ $lapso = new Lapso();
 $seccion = new Seccion();
 $materia = new Materia();
 $evaluacion = new Evaluacion();
-
+$tipo_msg="";
 if(isset($_POST)){
 	
 	$cedula = intval($_POST['cedula']);
@@ -34,6 +34,7 @@ if(isset($_POST)){
 		$evaluacion->setCantidadEvaluaciones($cantidad);
 		$filas = $evaluacion->insert();
 		if($filas){
+			$tipo_msg="info";
 			$mensaje1="Se creo el control de notas Exitosamente";
 			//echo $evaluacion->getId()." registro insertado<br>";
 			require_once '../vistas/evaluaciones.php';
@@ -58,6 +59,7 @@ if(isset($_POST)){
 		
 		if($sum < 100 || $sum > 100){
 			//echo "añadir";
+			$tipo_msg="error";
 			$mensaje="La suma de los porcentajes es de $sum% y debe ser del 100%";
 			require_once '../vistas/evaluaciones.php';
 		}else{
@@ -76,6 +78,7 @@ if(isset($_POST)){
 				$examenes+=$examen->insert();
 					
 			}
+			$tipo_msg="info";
 			$mensaje2="Se registraron ".$examenes." examenes";
 			require_once '../vistas/evaluaciones.php';
 		}
