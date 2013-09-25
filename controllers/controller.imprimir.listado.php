@@ -18,6 +18,7 @@ $objCeccion = new Seccion();
 $materia = new Materia();
 $evaluacion = new Evaluacion();
 $mensaje="";
+$tipo_msg="";
 
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
@@ -40,6 +41,7 @@ if(isset($_POST)){
 		//echo "buscando";
 		$objCeccion->findEstudiantesByMateria($materia->getId());
 		if(sizeof($objCeccion->estudiantes) <= 0){
+			$tipo_msg="error";
 			$mensaje="No posee estudiantes asignados para esta materia";
 		}
 		require_once '../vistas/imprimir_planilla_notas.php';
@@ -53,7 +55,7 @@ if(isset($_POST)){
 			$objCeccion->findEstudiantesByMateria($materia->getId());
 			
 			$vocales = array("á", "é", "í","ì", "ó", "ú","ò");
-			$nombre = str_replace($vocales, "", $materia->getNombre());
+			$nombre = str_replace($vocales, "_", $materia->getNombre());
 			$nombre = str_replace(" ", "_", $nombre);
 			$nombre = str_replace("*", "", $nombre);
 			
@@ -87,6 +89,7 @@ if(isset($_POST)){
 			$excel->close();
 			header("location:../tmp/$nombreXls");
 		}else{
+			$tipo_msg="error";
 			$mensaje="El plan de Evaluacion aun no esta cargado, Porfavor carguelo y luego imprima el listado";
 		}
 		require_once '../vistas/imprimir_planilla_notas.php';
