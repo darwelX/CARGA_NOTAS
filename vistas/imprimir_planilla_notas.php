@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
@@ -35,11 +35,15 @@
   <legend>Imprimir Control de Notas</legend>
   <table>
     <tr>
-         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
-                 if(isset($mensaje)){
-                    echo $mensaje;
-                 } 
-             ?>
+         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
+         						 <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
+                        }
+					?>  
          </th>
     </tr>
     
@@ -152,13 +156,17 @@
            Listado de Estudiantes
       </legend>
       <center>
-      <table id="listado">
+      <table class="table table-striped table-bordered table-hover">
            <tr>
                <th colspan="4" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-               <?php if(isset($mensaje)){
-               	       echo $mensaje;
-                     }
-               	?>
+						 <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
+                        }
+					?>  
               </th>
            </tr>
            <tr>
@@ -174,8 +182,7 @@
                 if(sizeof($objCeccion->estudiantes) > 0){
                   $i=1;
                   foreach ($objCeccion->estudiantes as $estudiante){
-                    $estilo = ( ($i % 2) == 0 )?"par":"impar";
-                    echo "<tr id='$estilo'>";
+                    echo "<tr>";
                     echo "<td>$i</td>";
                     echo "<td>".$objCon->formatoCedula($estudiante->getCedula())."</td>";
                     echo "<td>".$estudiante->getApellidos()."</td>";
