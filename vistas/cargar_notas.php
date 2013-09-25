@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
