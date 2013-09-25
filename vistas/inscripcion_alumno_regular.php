@@ -37,6 +37,8 @@ require_once '../classes/class.model.Taller.php';
   <input type="hidden" id="procesar" name="procesar" value="">
   <input type="hidden" id="id_asignatura_eliminar" name="id_asignatura_eliminar" value=""/>
   <input type="hidden" id="id_seccion_eliminar" name="id_seccion_eliminar" value=""/>
+  <input type="hidden" id="id_taller_eliminar" name="id_taller_eliminar" value=""/>
+  <input type="hidden" id="id_seccion_taller_eliminar" name="id_seccion_taller_eliminar" value=""/>
   <fieldset style="width: 150%">
   <legend>INSCRIPCI&Oacute;N</legend>
   <table class="table table-striped table-bordered" style="width: 100%;">
@@ -237,7 +239,7 @@ require_once '../classes/class.model.Taller.php';
 			           
 			           foreach ($taller->secciones as $sec){
                            if(isset($_POST['seccion_taller']) && $_POST['seccion_taller'] != ""){
-                               if($_POST['seccion_taller'] == $ta->getId()){
+                               if($_POST['seccion_taller'] == $sec->getId()){
 						       	  echo "<option value='".$sec->getId()."' selected>".$sec->getDescripcion()."</option>";
 						       }else{
                                   echo "<option value='".$sec->getId()."'>".$sec->getDescripcion()."</option>";
@@ -258,7 +260,35 @@ require_once '../classes/class.model.Taller.php';
         </td>
         			
         <td style="text-align: center;">
-        			    SELECCIONADO
+           SELECCIONADO
+           <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" class="btn" onclick="$('#procesar').attr('value','Agregar Taller');">
+    		<img alt="" src="../img/enviar.png" width="16" height="16"/>
+    		Cargar Taller
+    	    </button>
+    	    <br>
+    	     
+    	    <table class="table table-striped table-hover table-bordered">
+    	       <tr>
+    	        <th>SECCION</th>
+    	        <th>TALLER</th>
+    	    	<th>HORARIO</th>
+    	    	<th>BORRAR</th>
+    	       </tr>
+    	       
+    	       <?php foreach ($horariosTaller as $hor){
+    	       	   echo "<tr>";
+    	       	   echo "<td style='text-align: left;'>".$hor->seccion->getDescripcion()."</td>";
+    	       	   echo "<td style='text-align: left;'>".$hor->taller->getDescripcion()."</td>";
+    	       	   echo "<td style='text-align: left;'>".$hor->getHorario()."</td>";?>
+    	       	   <td>
+    	       	   
+    	       	   <button type="submit" name="procesarButton" value="Busccar" id="yourSubmitId" class="btn btn-primary" onclick="$('#id_seccion_taller_eliminar').attr('value','<?=$hor->seccion->getId()?>');$('#id_taller_eliminar').attr('value','<?=$hor->taller->getId()?>');$('#procesar').attr('value','Eliminar Taller');">
+    		        Eliminar
+    	           </button>
+    	           </td>
+    	       	   <?php echo "</tr>";
+    	       }?>
+    	    </table>
         </td>
     </tr>  
   </table>
