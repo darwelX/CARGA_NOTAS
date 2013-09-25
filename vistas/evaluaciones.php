@@ -3,9 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--<link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="../css/jquery.ui.all.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script> 
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
   <script type="text/javascript" src="../js/jquery.ui.core.js"></script>
@@ -46,29 +48,32 @@
   <table>
     <tr>
     	<th colspan="8" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-  		        	<?php 
-		        		if(isset($mensaje1)){
-							echo $mensaje1;
+	                   <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
                         }
-					?>  	
+					?>   	
     	</th>
     </tr>
     
     <tr>
-		<th><label>Lapso:</label></th>
+		<th>Lapso:</th>
 		<td>
 		     <?= $lapso->getDescripcion()?>
 		</td>
 
-		<th><label>Seccion:</label></th>
+		<th>Seccion:</th>
 		<td>
 		    <?= $seccion->getDescripcion()?>
 		</td>	
 
-		<th><label>Carrera:</label></th>
+		<th>Carrera:</th>
 		<td><?= $seccion->carrera->getDescripcion()?></td>	
 
-		<th><label>Materia:</label></th>
+		<th>Materia:</th>
 		<td>
 			<?= $materia->getNombre()?>
 		</td>
@@ -82,23 +87,17 @@
   <fieldset>
 		<legend>Evaluaciones</legend>  
 		<table>
-		        <tr>
-		        	<th colspan="3" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-		        	<?php 
-		        		if(isset($mensaje)){
-							echo $mensaje;
-                        }
-					?>
-		        	</th>
-		        </tr>
 		        
 		        <tr>
 		        	<th colspan="3" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-		        	<?php 
-		        		if(isset($mensaje2)){
-							echo $mensaje2;
+	                 <?php 
+		        		if(isset($mensaje2) && $mensaje2 != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje2?>
+						</div> <?php
                         }
-					?>
+					?>  
 		        	</th>
 		        </tr>
 		        
