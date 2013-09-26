@@ -35,11 +35,16 @@
   <legend>Imprimir Control de Notas</legend>
   <table>
     <tr>
-         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
-                 if(isset($mensaje)){
-                    echo $mensaje;
-                 } 
-             ?>
+         <th colspan="2" style="font-family: Arial, Helvetica,  sans-serif; font-size: 16px; font-weight: bold; color: red;">
+         						 <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
+                        }
+					?>
+         
          </th>
     </tr>
     
@@ -61,11 +66,16 @@
     </tr>
         
     <tr>
-         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;"><?php
-                 if(isset($mensaje2)){
-                    echo $mensaje2;
-                 } 
-             ?>
+         <th colspan="2" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
+						 <?php 
+		        		if(isset($mensaje2) && $mensaje2 != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje2?>
+						</div> <?php
+                        }
+					?> 
+             
          </th>     
     </tr>
     
@@ -186,7 +196,7 @@
            Listado de Estudiantes
       </legend>
       <center>
-      <table id="listado">
+      <table class="table table-striped table-bordered table-hover">
            <tr>
                 <?php 
                 $objReadCSV = new ReadCSV($uploadfile);
@@ -194,10 +204,14 @@
              	$k=sizeof($matrizNotas[0]) + 3 ;
              	?>           
                <th colspan="<?=$k;?>" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-               <?php if(isset($mensaje)){
-               	       echo $mensaje;
-                     }
-               	?>
+						 <?php 
+		        		if(isset($mensaje2) && $mensaje2 != ""){?>
+                         <div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje2?>
+						</div> <?php
+                        }
+					?>
               </th>
            </tr>
            <tr>
@@ -219,9 +233,7 @@
              	$k=1;
              	for($i=1; $i < sizeof($matrizNotas); $i++){
              		
-             		$estilo = ( ($i % 2) == 0 )?"par":"impar";
-             		
-             	    echo "<tr id='$estilo'>";
+             		echo "<tr>";
              	    echo "<td>$k</td>";
              	    $suma=0;
              	    for($j=0; $j<sizeof($matrizNotas[$i]); $j++ ){
