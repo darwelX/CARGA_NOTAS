@@ -6,6 +6,7 @@ require_once '../classes/class.util.Convert.php';
 $taller = new Taller();
 $mensaje="";
 $buscar = true;
+$tipo_msg="";
 if(isset($_POST)){
 	
 	if(isset($_POST['procesar']) && $_POST['procesar'] == "Guardar"){
@@ -13,8 +14,10 @@ if(isset($_POST)){
 		$taller->setDescripcion($_POST['descripcion']);
 		
 		if($taller->insert()){
+			$tipo_msg="info";
 			$mensaje="Taller registrado";
 		}else{
+			$tipo_msg="error";
 			$mensaje="El taller ya existe";
 		}
 		require_once '../vistas/inscribir_taller.php';
@@ -25,6 +28,7 @@ if(isset($_POST)){
 		$taller->setCodigo($_POST['codigo']);
 		$taller->setDescripcion($_POST['descripcion']);
 		if($taller->update()){
+			$tipo_msg="info";
 			$mensaje="Taller acctualizado";
 			unset($buscar);
 			unset($_POST['id']);
@@ -43,6 +47,7 @@ if(isset($_POST)){
 			$_POST['descripcion']=$taller->getDescripcion();
 			
 		}else{
+			$tipo_msg="error";
 			$mensaje="Taller no encontrado";
 			unset($buscar);
 		}
