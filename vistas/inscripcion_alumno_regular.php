@@ -109,7 +109,7 @@ require_once '../classes/class.model.Taller.php';
         		<tr>
         			<td style="text-align: center;">
         			    TRIMESTRE<br>
-        			<select class="span1" name="trimestre" onchange="javascript: form.submit()" size="14">
+        			<select class="span8" name="trimestre" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
 			        <?php
 			           $trimestre = new Trimestre();
@@ -134,7 +134,7 @@ require_once '../classes/class.model.Taller.php';
         			
         			<td style="text-align: center;">
         			ASIGNATURAS<br> 
-        			<select class="span8" name="asignatura" onchange="javascript: form.submit()" size="14">
+        			<select class="span16" name="asignatura" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
         			<?php
         			if(isset($materias) && count($materias) > 0 ){
@@ -157,7 +157,7 @@ require_once '../classes/class.model.Taller.php';
         			</td>
         			
         			<td style="text-align: center;">SECCION<br>
-        			<select class="span1" name="seccion" onchange="javascript: form.submit()" size="14">
+        			<select class="span10" name="seccion" onchange="javascript: form.submit()" size="14">
 			        <option value="">--</option>
         			<?php
         			if(isset($secciones) && count($secciones) > 0 ){
@@ -223,7 +223,7 @@ require_once '../classes/class.model.Taller.php';
         	<table class="table table-striped table-bordered">
         		<tr>
         		    <td style="text-align: center;">TALLER<br>
-        		    <select class="span4" name="taller" onchange="javascript: form.submit()" size="7">
+        		    <select class="span8" name="taller" onchange="javascript: form.submit()" size="7">
 			        <option value="">--</option>
 			        <?php
 			           $taller = new Taller();
@@ -247,7 +247,7 @@ require_once '../classes/class.model.Taller.php';
         	    	</td>
         	    	
         		    <td style="text-align: center;">SECCION<br>
-        		    <select class="span1" name="seccion_taller" onchange="javascript: form.submit()" size="7">
+        		    <select class="span6" name="seccion_taller" onchange="javascript: form.submit()" size="7">
 			        <option value="">--</option>
 			        <?php
 			           if(isset($_POST['taller']) && $_POST['taller'] != ""){
