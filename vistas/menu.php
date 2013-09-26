@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.css" media="screen" />
+<!--  <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.css" media="screen" />-->
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/twitter-bootstrap-hover-dropdown.min.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
-  <script type="text/javascript" src="../js/jquery.ui.core.js"></script>
-  <script type="text/javascript" src="../js/jquery.ui.widget.js"></script>
-  <script type="text/javascript" src="../js/jquery.ui.datepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
+<script type="text/javascript" src="../js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../js/jquery.ui.datepicker.js"></script>
+
 <meta charset="ISO-8859-1">
 <title></title>
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
