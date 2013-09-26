@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +23,28 @@
   
 </head>
 <body>
-<?php require_once '../classes/class.model.Lapso.php';?>  
+<?php require_once '../classes/class.model.Lapso.php';  
+
+    if( !isset($_SESSION['LOGIN']) ){
+         require_once 'login.php';
+         exit;
+    }?>
+    
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">
 <!-- ../controllers/controller.cargaNota.php -->
 <form class="form-horizontal" action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
-  <fieldset style="width: 50%">
+  <fieldset style="width: 50%; padding-left: 25%;">
   <legend>Busccar Estudiante</legend>
 
 
@@ -90,5 +109,7 @@
   </fieldset>
    
 </form>
+  </div>
+</div>
 </body>
 </html>
