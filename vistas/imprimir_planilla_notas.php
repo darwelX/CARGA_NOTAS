@@ -14,9 +14,12 @@
 </head>
 <body>
     <?php require_once '../classes/class.model.Docente.php';
+    $docente = new Docente();
     if( !isset($_SESSION['LOGIN']) ){
          require_once 'login.php';
          exit;
+    }else{
+        $docente->findBy("CEDULA = ".$_SESSION['CEDULA']);
     }?>
     
 <div class="row">
@@ -154,11 +157,11 @@
   <br>
   <?php 
   if( (isset($_POST['procesar']) && $_POST['procesar']=="Buscar") ||  (isset($_POST['procesar']) && $_POST['procesar']=="Imprimir")){?>   
-     <fieldset style="width: 50%">
+     <fieldset style="padding-left: 20%;">
       <legend align="center">
            Listado de Estudiantes
       </legend>
-      <center>
+      
       <table class="table table-striped table-bordered table-hover">
            <tr>
                <th colspan="4" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
@@ -204,7 +207,7 @@
                 </td>
              </tr>
       </table>
-      </center>
+      
      </fieldset>
 <?php }?>
 </form>
