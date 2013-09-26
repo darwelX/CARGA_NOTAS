@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,24 +24,31 @@
   
 </head>
 <body>
-    <?php require_once '../classes/class.model.Docente.php';
-    $docente= new Docente();
-    $cedula="";
-    if( isset($_GET['cedula']) || isset($_POST['cedula']) ){
-          $cedula = (isset($_GET['cedula']))? intval($_GET['cedula']) : intval($_POST['cedula']);
-          //echo $cedula;
-    	  $docente->findBy("CEDULA = $cedula");
-    }else{
+    <?php require_once '../classes/class.model.Usuario.php';
+    require_once '../classes/class.model.Lapso.php';
+    require_once '../classes/class.model.Docente.php';
+    
+    if( !isset($_SESSION['LOGIN']) ){
          require_once 'login.php';
          exit;
     }?>
     
-    <?php require_once 'menu.php';
-          ?>
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.cargaNota.php" method="post" id="form1"  onsubmit="return validateForm(this);">
-  <input type="hidden" name="cedula" value="<?php echo $cedula;?>"/>
-  <fieldset style="width: 50%">
+  <input type="hidden" name="cedula" value="<?php echo $_SESSION['CEDULA'];?>"/>
+  <fieldset style="width: 50%; padding-left: 25%;">
   <legend>Carga de Evaluaciones</legend>
   <table>
     
@@ -78,6 +86,8 @@
 			        <option value="">--</option>
 			        <?php
 			           if(isset($_POST['lapso']) && $_POST['lapso'] != ""){
+                            $docente = new Docente();
+                            $docente->findBy("CEDULA = ".$_SESSION['CEDULA']);
 			           		$docente->findAllSeccionesByLapso($_POST['lapso']);
 			           		foreach ($docente->secciones as $sec){
                            		if(isset($_POST['seccion']) && $_POST['seccion'] != "0"){
@@ -138,5 +148,7 @@
   </fieldset>
    
 </form>
+  </div>
+</div>
 </body>
 </html>
