@@ -11,7 +11,22 @@
   <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
 </head>
 <body>
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
     <?php require_once 'menu.php';?>
+  </div>
+</div>
+
+ 
+<div class="row-fluid">
+  <div class="span12">
     
+  </div>
+</div>
+   
 </body>
 </html>
