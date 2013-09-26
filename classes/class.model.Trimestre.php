@@ -28,6 +28,7 @@ class Trimestre implements Operaciones{
 	public function findAll(){
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll);
+		//echo $this->sqlAll;
 		$indice = 0;
 		$array=array();
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
