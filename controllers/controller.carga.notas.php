@@ -27,6 +27,7 @@ $swCargar = false;
 $errores = array();
 $cedulasNoRegistradas="";
 $cedulasNoMatriculadas="";
+$tipo_msg="";
 if(isset($_POST)){
 	$cedula = intval($_POST['cedula']);
 	$docente->findBy("CEDULA = $cedula");
@@ -70,17 +71,19 @@ if(isset($_POST)){
 							$cedulasNoRegistradas.=$cedula.",";
 						}
 					}
-					
+				    $tipo_msg="info";	
 					$mensaje = "Archivo cargado exitosamente";
 					if($cantidadEstudiantesNoRegistrados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoRegistrados estudiantes, no registrados en el sistema ($cedulasNoRegistradas)";
 					if($cantidadEstudiantesNoMatriculados) $mensaje.="<br> Se encontraron en el archivo $cantidadEstudiantesNoMatriculados estudiantes, no inscritos en la asignatura ($cedulasNoMatriculadas)";
 					$swCargar = true;
 				}
 			} else {
+				$tipo_msg="error";
 				$mensaje = "Fallo la carga del archivo";
 			}
 
 		}else{
+			$tipo_msg="error";
 			$mensaje ="No existe un Control de Evaluacion creado debe de <a href='../vistas/crear_plan_evaluacion.php?&cedula=".$docente->getCedula()."'>crear</a> uno antes de cargar notas";
 		}
 
@@ -153,6 +156,7 @@ if(isset($_POST)){
 
 		}
 		$estudiantes = $cantidadNotasRegistradas/$cantidadEvaluaciones;
+		$tipo_msg="info";
 		$mensaje2="Total de notas desglosadas registradas $cantidadNotasRegistradas <br> Numero de estudiantes procesados $estudiantes";
 		$mensaje2.="<br> Total de notas Definitivas registradas $cantidadNotasDefinitivas";
 		$mensaje2.="<br>$cantidadEstudiantesNoInscritos estudiantes no inscritos en la asignatura tiene el archivo";
