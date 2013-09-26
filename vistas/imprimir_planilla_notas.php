@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,25 +14,27 @@
 </head>
 <body>
     <?php require_once '../classes/class.model.Docente.php';
-    $docente= new Docente();
-    $cedula="";
-    if( isset($_GET['cedula']) || isset($_POST['cedula']) ){
-          $cedula = (isset($_GET['cedula']))? intval($_GET['cedula']) : intval($_POST['cedula']);
-          //echo $cedula;
-    	  $docente->findBy("CEDULA = $cedula");
-    }else{
-         echo "login.php";
+    if( !isset($_SESSION['LOGIN']) ){
          require_once 'login.php';
          exit;
     }?>
     
-    <?php require_once 'menu.php';
-          ?>
-<!-- ../controllers/controller.cargaNota.php -->
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">
 
 <form action="../controllers/controller.imprimir.listado.php" method="post" id="form1">
-  <input type="hidden" name="cedula" value="<?php echo $cedula;?>"/>
-  <fieldset style="width: 50%">
+  <input type="hidden" name="cedula" value="<?=$_SESSION['CEDULA']?>"/>
+  <fieldset style="width: 50% ; padding-left: 20%;">
   <legend>Imprimir Control de Notas</legend>
   <table>
     <tr>
@@ -205,5 +208,7 @@
      </fieldset>
 <?php }?>
 </form>
+  </div>
+</div>
 </body>
 </html>
