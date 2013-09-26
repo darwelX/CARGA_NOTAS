@@ -83,6 +83,7 @@ class Evaluacion implements Operaciones{
 	public function findBy($condicion){
 		$this->conexion->conectar();
 		$this->stmt = $this->conexion->ejecutar($this->sqlAll." WHERE $condicion ");
+		//echo $this->sqlAll." WHERE $condicion ";
 		while ($rsd=$this->conexion->obtener_filas($this->stmt)){
 			$this->id = $rsd['IDCONTROL'];
 			$this->iddocente = $rsd['IDDOCENTE'];
