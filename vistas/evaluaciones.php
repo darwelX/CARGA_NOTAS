@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,18 +22,23 @@
 </head>
 <body>
     <?php require_once '../classes/class.model.Docente.php';
-    $docente= new Docente();
-    $cedula="";
-    if( isset($_GET['cedula']) || isset($_POST['cedula']) ){
-          $cedula = (isset($_GET['cedula']))? intval($_GET['cedula']) : intval($_POST['cedula']);
-    	  $docente->findBy("CEDULA = $cedula");
-    }else{
+     if( !isset($_SESSION['LOGIN']) ){
          require_once 'login.php';
          exit;
     }?>
     
-    <?php require_once 'menu.php';
-          ?>
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">
 <!-- ../controllers/controller.cargaNota.php -->
 
 <form action="../controllers/controller.cargaNota.php" method="post" id="form1">
@@ -127,6 +133,7 @@
   </fieldset>
    
 </form>
-
+  </div>
+</div>
 </body>
 </html>
