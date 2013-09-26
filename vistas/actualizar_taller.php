@@ -1,9 +1,10 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Carga Evaluaciones</title>
-  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />
+  <!--  <link rel="stylesheet" type="text/css" href="../css/main.css" media="screen" />-->
   <link rel="stylesheet" type="text/css" href="../css/jquery.ketchup.css" media="screen" />
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/jquery.ketchup.all.min.js"></script>
@@ -26,21 +27,39 @@
   
 </head>
 <body>
-    
+ <?php if( !isset($_SESSION['LOGIN']) ){
+         require_once 'login.php';
+         exit;
+       }?>
+<div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">  
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.Taller.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <input type="hidden" name="id" value="<?php echo (!isset($buscar))?'':$taller->getId();?>"/> 
-  <fieldset style="width: 50%">
+  <fieldset style="width: 50% ; padding-left: 25%;">
   <legend>Crear Taller</legend>
   <table>
 
     <tr>
     	<th colspan="8" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: red;">
-  		        	<?php 
-		        		if(isset($mensaje)){
-							echo $mensaje;
+                        <?php 
+		        		if(isset($mensaje) && $mensaje != ""){?>
+						<div class="alert alert-<?=$tipo_msg?>">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<?=$mensaje?>
+						</div> <?php
                         }
-					?>  	
+                        ?> 	
     	</th>
     </tr>
 
@@ -77,5 +96,7 @@
   </fieldset>
    
 </form>
+  </div>
+</div>
 </body>
 </html>
