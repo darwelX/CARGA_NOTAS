@@ -19,6 +19,8 @@
     if( !isset($_SESSION['LOGIN']) ){
          require_once 'login.php';
          exit;
+    }else{
+        $docente->findBy("CEDULA = ".$_SESSION['CEDULA']);
     }?>
     
 <div class="row">
@@ -36,9 +38,9 @@
 <!-- ../controllers/controller.cargaNota.php -->
 
 <form enctype="multipart/form-data" action="../controllers/controller.carga.notas.php" method="post" id="form1">
-  <input type="hidden" name="cedula" value="<?php echo $cedula;?>"/>
+  <input type="hidden" name="cedula" value="<?php echo $_SESSION['CEDULA'];?>"/>
   <fieldset style="width: 100%">
-  <legend>Imprimir Control de Notas</legend>
+  <legend>Cargar Control de Notas</legend>
   <table>
     <tr>
          <th colspan="2" style="font-family: Arial, Helvetica,  sans-serif; font-size: 16px; font-weight: bold; color: red;">
