@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,25 @@
 require_once '../classes/class.model.Materia.php';
 require_once '../classes/class.model.Horario.php';
 require_once '../classes/class.model.Taller.php';
-?>    
+
+
+    if( !isset($_SESSION['LOGIN']) ){
+	    require_once 'login.php';
+	    exit;
+    }
+ ?>  
+ <div class="row">
+  <div class="span12"><img alt="" src="../img/MEMBRETE.jpg"></div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <?php require_once 'menu.php';?>
+  </div>
+</div>    
+
+<div class="row-fluid">
+  <div class="span12">  
 <!-- ../controllers/controller.cargaNota.php -->
 <form action="../controllers/controller.inscripcion.php" method="post" id="form1"  onsubmit="return validateForm(this);">
   <input type="hidden" name="id_estudiante" value="<?php echo (isset($_POST['id_estudiante']))?$_POST['id_estudiante']:"";?>">
@@ -295,5 +314,7 @@ require_once '../classes/class.model.Taller.php';
   </fieldset>
    
 </form>
+  </div>
+</div>
 </body>
 </html>
